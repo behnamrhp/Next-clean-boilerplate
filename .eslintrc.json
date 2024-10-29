@@ -1,3 +1,13 @@
 {
+  "overrides": [
+    {
+      "files": [
+        "src/**/*-vm.ts"
+      ],
+      "rules": {
+          "react-hooks/rules-of-hooks": "off"
+      }
+    }
+  ],
   "extends": ["next/core-web-vitals", "next/typescript"]
 }
