@@ -1,3 +1,8 @@
+import { LatestInvoicesSkeleton, RevenueChartSkeleton } from "@/app/components/skeleton/skeletons";
+import CardWrapper from "@/app/dashboard/components/cards";
+import LatestInvoices from "@/app/dashboard/components/latest-invoices";
+import RevenueChart from "@/app/dashboard/components/revenue-chart";
+import { Suspense } from "react";
 
 export default async function Dashboard() {
 
@@ -7,15 +12,15 @@ export default async function Dashboard() {
         Dashboard
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {/* <CardWrapper /> */}
+        <CardWrapper />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        {/* <Suspense fallback={<RevenueChartSkeleton />}>
+        <Suspense fallback={<RevenueChartSkeleton />}>
           <RevenueChart  />
-        </Suspense> */}
-        {/* <Suspense fallback={<LatestInvoicesSkeleton />}>
+        </Suspense>
+        <Suspense fallback={<LatestInvoicesSkeleton />}>
           <LatestInvoices />
-        </Suspense> */}
+        </Suspense>
       </div>
     </main>
   )
