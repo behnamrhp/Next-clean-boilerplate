@@ -1,17 +1,17 @@
 "use client"
+// import gdi from "@/bootstrap/di/init-di";
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-props-no-spreading */
-import di from "@/bootstrap/di/init-di";
-import BaseVM from "@/bootstrap/helpers/vm/base-vm";
-import { Component, ReactNode, FC, PropsWithChildren, memo, MemoExoticComponent } from "react";
+import IBaseVM from "@/bootstrap/helpers/vm/i-base-vm";
+import { Component, ReactNode, FC, PropsWithChildren, memo } from "react";
 
 /* -------------------------------------------------------------------------- */
 /*                             Connector Component                            */
 /* -------------------------------------------------------------------------- */
 interface IVvmConnector<IVM, PROPS> extends PropsWithChildren {
   View: FC<any & { vm: IVM }>;
-  vmName: string;
+  Vm: IBaseVM<IVM>;
   restProps?: PROPS;
   memoizedByVM?: boolean;
 }
@@ -21,11 +21,9 @@ interface IVvmConnector<IVM, PROPS> extends PropsWithChildren {
  */
 const VvmConnector = memo(
   <IVM, PROPS>(props: IVvmConnector<IVM, PROPS>) => {
-    const { View, vmName, restProps, children } = props;
-    const VmInstance = di.resolve(vmName) as new () => BaseVM<IVM>;
-    if (!VmInstance) throw new Error(`Provided vm as ${vmName} is not exists`)
+    const { View, Vm, restProps, children } = props;
 
-    const vm = new VmInstance().useVM()
+    const vm = Vm.useVM()
 
     const allProps = {
       restProps,
@@ -46,8 +44,8 @@ const VvmConnector = memo(
 type IVMParent = Record<string, any>;
 type IPropParent = Record<string, any> | undefined;
 
-type BaseProps<PROPS extends IPropParent = undefined> = {
-  vmName: string;
+type BaseProps<IVM extends IVMParent, PROPS extends IPropParent = undefined> = {
+  vm: IBaseVM<IVM>;
   restProps?: PROPS;
   /**
    * By default it's true.
@@ -70,25 +68,23 @@ export type BuildProps<
 export default abstract class BaseView<
   IVM extends IVMParent,
   PROPS extends IPropParent = undefined,
-> extends Component<BaseProps<PROPS>> {
+> extends Component<BaseProps<IVM, PROPS>> {
   /* -------------------------------- Abstracts ------------------------------- */
   protected abstract Build(props: BuildProps<IVM, PROPS>): ReactNode;
 
   /* -------------------------------- Renderer -------------------------------- */
   render(): ReactNode {
-    const { vmName, restProps, memoizedByVM, children, ...rest } = this.props;
+    const { vm, restProps, memoizedByVM, children, ...rest } = this.props;
     
-    const Connector = VvmConnector as MemoExoticComponent<((props: IVvmConnector<IVM, PROPS>) => JSX.Element)>;
-
     return (
-      <Connector
+      <VvmConnector
         View={this.Build}
-        vmName={vmName}
+        Vm={vm}
         memoizedByVM={typeof memoizedByVM === "undefined" ? true : memoizedByVM}
-        restProps={{ ...restProps, ...rest } as PROPS}
+        restProps={{ ...restProps, ...rest }}
       >
         {children}
-      </Connector>
+      </VvmConnector>
     );
   }
   /* -------------------------------------------------------------------------- */

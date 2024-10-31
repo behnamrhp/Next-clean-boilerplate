@@ -1,8 +1,5 @@
-"use client"
-import "reflect-metadata"
-import TestButtonVM from "@/app/test/vm/test-button-vm";
-import Button from "@/components/button/button";
+import ParentView from "@/app/test/client/view/parent-view";
 
 export default function Page() {
-    return <Button vmName={TestButtonVM.name} />
+    return <ParentView />
 }

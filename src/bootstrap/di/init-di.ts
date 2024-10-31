@@ -1,5 +1,5 @@
+// "use client"
 import "reflect-metadata"
-
 import { container, DependencyContainer } from "tsyringe";
 
 /**
@@ -8,7 +8,7 @@ import { container, DependencyContainer } from "tsyringe";
  *  are registered and available for injection throughout the application.
  */
 const InitDI = (): DependencyContainer => {
-  const di = container;
+  const di = container.createChildContainer();
 
   return di;
 };

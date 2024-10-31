@@ -1,4 +1,5 @@
 "use client"
+import { useDI } from "@/bootstrap/di/di-context";
 import { NoOverride } from "@/bootstrap/helpers/type-helper";
 import IBaseVM from "@/bootstrap/helpers/vm/i-base-vm";
 import { useState } from "react";
@@ -28,6 +29,10 @@ export default abstract class BaseVM<
    */
   protected rerender?: () => void;
 
+  /* -------------------------------------------------------------------------- */
+  protected get di() {
+    return useDI()
+  }
   /* -------------------------------------------------------------------------- */
   /**
    * You can use this hook in your useVm method to get rerender method
