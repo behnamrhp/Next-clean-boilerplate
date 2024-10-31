@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start --port 4000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node -r dotenv/config ./src/bootstrap/db/seed.js"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.1",
@@ -14,6 +15,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.454.0",
     "next": "15.0.1",
+    "postgres": "^3.4.5",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
     "reflect-metadata": "^0.2.2",
@@ -25,6 +27,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "eslint": "^8",
     "eslint-config-next": "15.0.1",
     "postcss": "^8",
