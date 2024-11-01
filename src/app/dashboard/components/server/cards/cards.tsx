@@ -1,5 +1,5 @@
-import { Card } from '@/app/dashboard/components/card/card';
-import cardsController from '@/app/dashboard/components/cards/cards-controller';
+import { Card } from '@/app/dashboard/components/server/card/card';
+import cardsController from '@/app/dashboard/components/server/cards/cards-controller';
 
 
 export default async function CardWrapper() {

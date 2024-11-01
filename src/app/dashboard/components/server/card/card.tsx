@@ -1,4 +1,4 @@
-import cardController from "@/app/dashboard/components/card/card-controller";
+import cardController from "@/app/dashboard/components/server/card/card-controller";
 
 
 

@@ -1,7 +1,7 @@
-import { LatestInvoicesSkeleton, RevenueChartSkeleton } from "@/app/dashboard/components/skeletons/skeletons";
-import CardWrapper from "@/app/dashboard/components/cards/cards";
-import LatestInvoices from "@/app/dashboard/components/latest-invoices/latest-invoices";
-import RevenueChart from "@/app/dashboard/components/revenue-chart/revenue-chart";
+import { LatestInvoicesSkeleton, RevenueChartSkeleton } from "@/app/dashboard/components/server/skeletons/skeletons";
+import CardWrapper from "@/app/dashboard/components/server/cards/cards";
+import LatestInvoices from "@/app/dashboard/components/server/latest-invoices/latest-invoices";
+import RevenueChart from "@/app/dashboard/components/server/revenue-chart/revenue-chart";
 import { Suspense } from "react";
 
 export default async function Dashboard() {
