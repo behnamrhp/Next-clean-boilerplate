@@ -1,9 +1,9 @@
-import CustomerRepo, { customerRepoKey } from "@/feature/customer/domain/i-repo/customer-repo";
+import CustomerRepo, { customerRepoKey } from "@/feature/core/customer/domain/i-repo/customer-repo";
 import { getMock } from "@/test/common/mock/mock-factory";
 import { describe } from "vitest";
 import { faker } from "@faker-js/faker";
 import CustomerFakeFactory from "@/test/common/fake-factory/customer/customer-fake-factory";
-import fetchCustomersUsecase from "@/feature/customer/domain/usecase/fetch-customers-usecase";
+import fetchCustomersUsecase from "@/feature/core/customer/domain/usecase/fetch-customers-usecase";
 import mockDi from "@/test/common/mock/mock-di";
 /* -------------------------------------------------------------------------- */
 /*                                   Faking                                   */

@@ -1,4 +1,4 @@
-import Customer from "@/feature/customer/domain/entity/customer";
+import Customer from "@/feature/core/customer/domain/entity/customer";
 import { faker } from "@faker-js/faker";
 
 export default class CustomerFakeFactory {
