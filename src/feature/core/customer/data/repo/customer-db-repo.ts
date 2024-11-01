@@ -17,8 +17,6 @@ type customerDbResponse = {
 
 export default class CustomerDbRepo implements CustomerRepo {
     async fetchList(query: string): Promise<Customer[]> {
-        // This is equivalent to in fetch(..., {cache: 'no-store'}).
-        connection()
         try {
             const data = await sql`
                 SELECT
