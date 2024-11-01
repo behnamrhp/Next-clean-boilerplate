@@ -4,7 +4,7 @@ import fetchCustomerInvoicesUsecase from "@/feature/customer-invoice/domain/usec
 import CustomerDbRepo from "@/feature/customer/data/repo/customer-db-repo";
 import { DependencyContainer } from "tsyringe";
 
-export default function getCustomerInvoiceInvoiceDi(): DependencyContainer {
+export default function getCustomerInvoiceDi(): DependencyContainer {
     const customerInvoiceDi = di.createChildContainer()
 
     customerInvoiceDi.register(fetchCustomerInvoicesUsecase.name, {

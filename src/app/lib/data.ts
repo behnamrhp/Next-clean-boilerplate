@@ -41,6 +41,7 @@ export async function fetchCardData() {
     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
     const invoiceStatusPromise = sql`SELECT
+         id,
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
@@ -53,7 +54,7 @@ export async function fetchCardData() {
 
     const invoices = data[0] as postgres.RowList<Invoice[]>
     const customres = data[1] as postgres.RowList<Customer[]>
-    const invoiceStatus = data[2] as postgres.RowList<({paid: string, pending: string})[]>
+    const invoiceStatus = data[2] as postgres.RowList<({id: string; paid: string, pending: string})[]>
     const numberOfInvoices = Number(invoices.count ?? '0');
     const numberOfCustomers = Number(customres.count ?? '0');
     const totalPaidInvoices = formatCurrency(Number(invoiceStatus.at(0)?.paid ?? '0'));
