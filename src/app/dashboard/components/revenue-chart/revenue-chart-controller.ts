@@ -1,7 +1,21 @@
 import Revenue from "@/feature/core/revenue/domain/entity/revenue";
+import fetchRevenuesUsecase from "@/feature/core/revenue/domain/usecase/fetch-revenues-usecase";
 
+export default async function revenueChartController() {
+  const revenue = await fetchRevenuesUsecase();
+  const chartHeight = 350;
 
-export const generateYAxis = (revenue: Revenue[]) => {
+  const { yAxisLabels, topLabel } = generateYAxis(revenue);
+
+  return {
+    revenue,
+    chartHeight,
+    yAxisLabels,
+    topLabel
+  }
+}
+
+function generateYAxis(revenue: Revenue[]) {
   // Calculate what labels we need to display on the y-axis
   // based on highest record and in 1000s
   const yAxisLabels = [];

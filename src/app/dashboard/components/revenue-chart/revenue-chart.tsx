@@ -1,13 +1,8 @@
-import { generateYAxis } from '@/app/lib/utils';
-import fetchRevenuesUsecase from '@/feature/core/revenue/domain/usecase/fetch-revenues-usecase';
+import revenueChartController from '@/app/dashboard/components/revenue-chart/revenue-chart-controller';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 
 export default async function RevenueChart() {
-  const revenue = await fetchRevenuesUsecase();
-
-  const chartHeight = 350;
-
-  const { yAxisLabels, topLabel } = generateYAxis(revenue);
+  const { chartHeight, revenue, topLabel, yAxisLabels } = await revenueChartController()
 
   if (!revenue || revenue.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;
