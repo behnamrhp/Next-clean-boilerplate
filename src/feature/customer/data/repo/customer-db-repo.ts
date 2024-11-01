@@ -46,6 +46,11 @@ export default class CustomerDbRepo implements CustomerRepo {
         }
     }
 
+    async fetchCustomersAmount(): Promise<number> {
+        const data = await sql`SELECT COUNT(*) FROM customers`as postgres.RowList<unknown[]>;
+        return Number(data.count ?? '0');
+    }
+
 
     private customersDto(dbCustomers: customerDbResponse[]): Customer[] {
         return  dbCustomers.map((customer) => this.customerDto(customer));
