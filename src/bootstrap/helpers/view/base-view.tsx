@@ -69,13 +69,17 @@ export default abstract class BaseView<
   IVM extends IVMParent,
   PROPS extends IPropParent = undefined,
 > extends Component<BaseProps<IVM, PROPS>> {
-  /* -------------------------------- Abstracts ------------------------------- */
   protected abstract Build(props: BuildProps<IVM, PROPS>): ReactNode;
 
-  /* -------------------------------- Renderer -------------------------------- */
+  protected get componentName() {
+    return this.constructor.name
+  }
+
   render(): ReactNode {
     const { vm, restProps, memoizedByVM, children, ...rest } = this.props;
     
+    VvmConnector.displayName = this.componentName
+  
     return (
       <VvmConnector
         View={this.Build}
