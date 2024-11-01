@@ -8,9 +8,9 @@ export default class CustomerFakeFactory {
             name: faker.person.fullName(),
             email: faker.internet.email(),
             imageUrl: faker.image.url(),
-            totalInvoices: faker.number.int(),
-            totalPaid: faker.number.int(),
-            totalPending: faker.number.int(),
+            totalInvoices: faker.number.int().toLocaleString(),
+            totalPaid: faker.finance.amount(),
+            totalPending: faker.number.int().toLocaleString(),
         })
     }
 
