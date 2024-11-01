@@ -7,6 +7,8 @@ import getTestModule from "@/feature/infra/test/module/test-module";
 import getInvoiceDi from "@/feature/core/invoice/data/module/invoice-di";
 import { invoiceModuleKey } from "@/feature/core/invoice/invoice-module-key";
 import { DependencyContainer } from "tsyringe";
+import { summaryInfoModuleKey } from "@/feature/core/summary-info/domain/summary-info-module-key";
+import getSummaryInfoDi from "@/feature/core/summary-info/data/module/summary-info-di";
 
 export default function serverDi(module: string): DependencyContainer {
     const getDi = {
@@ -14,6 +16,7 @@ export default function serverDi(module: string): DependencyContainer {
         [customerKey]: getCustomerDi,
         [customerInvoiceModuleKey]: getCustomerInvoiceDi,
         [invoiceModuleKey]: getInvoiceDi,
+        [summaryInfoModuleKey]: getSummaryInfoDi,
     }[module]
 
     if (!getDi) throw new Error("Server Di didn't found for module: " + module)
