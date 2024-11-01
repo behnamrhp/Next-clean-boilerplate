@@ -1,10 +1,10 @@
+import fetchSummaryInfoUsecase from '@/feature/core/summary-info/domain/usecase/fetch-summary-info-usecase';
 import {
   BanknotesIcon,
   ClockIcon,
   UserGroupIcon,
   InboxIcon,
 } from '@heroicons/react/24/outline';
-import { fetchCardData } from '@/app/lib/data';
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -14,21 +14,16 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
-   const {
-    numberOfInvoices,
-    numberOfCustomers,
-    totalPaidInvoices,
-    totalPendingInvoices,
-  } = await fetchCardData();
+   const {customersNumber, invoicesNumber, invoicesSummary } = await fetchSummaryInfoUsecase();
   
   return (
     <>
-      <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card title="Collected" value={invoicesSummary.paid} type="collected" />
+      <Card title="Pending" value={invoicesSummary.pending} type="pending" />
+      <Card title="Total Invoices" value={invoicesNumber} type="invoices" />
       <Card
         title="Total Customers"
-        value={numberOfCustomers}
+        value={customersNumber}
         type="customers"
       />
     </>

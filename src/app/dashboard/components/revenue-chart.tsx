@@ -1,9 +1,9 @@
 import { generateYAxis } from '@/app/lib/utils';
+import fetchRevenuesUsecase from '@/feature/core/revenue/domain/usecase/fetch-revenues-usecase';
 import { CalendarIcon } from '@heroicons/react/24/outline';
-import { fetchRevenue } from '@/app/lib/data';
 
 export default async function RevenueChart() {
-  const revenue = await fetchRevenue();
+  const revenue = await fetchRevenuesUsecase();
 
   const chartHeight = 350;
 

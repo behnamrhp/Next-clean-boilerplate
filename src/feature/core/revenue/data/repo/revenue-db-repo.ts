@@ -11,7 +11,6 @@ export type RevenueDbResponse = {
 export default class RevenueDbRepo implements RevenueRepo {
     async fetchRevenues(): Promise<Revenue[]> {
         // This is equivalent to in fetch(..., {cache: 'no-store'}).
-        connection()
         try {
             // Artificially delay a response for demo purposes.
             // Don't do this in production :)

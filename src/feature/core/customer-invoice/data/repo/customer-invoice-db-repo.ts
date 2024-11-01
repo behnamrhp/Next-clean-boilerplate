@@ -2,7 +2,6 @@ import { formatCurrency } from "@/app/lib/utils";
 import { sql } from "@/bootstrap/db/db";
 import CustomerInvoice from "@/feature/core/customer-invoice/domain/entity/customer-invoice";
 import CustomerInvoiceRepo from "@/feature/core/customer-invoice/domain/i-repo/customer-invoice-repo";
-import { connection } from "next/server";
 import postgres from "postgres";
 
 type customerInvoiceDbResponse = {
@@ -13,11 +12,8 @@ type customerInvoiceDbResponse = {
   amount: string;
 }
 
-export default class CustomerDbRepo implements CustomerInvoiceRepo {
+export default class CustomerInvoiceDbRepo implements CustomerInvoiceRepo {
     async fetchList(): Promise<CustomerInvoice[]> {
-        // This is equivalent to in fetch(..., {cache: 'no-store'}).
-        connection()
-
         try {
             const data = await sql`
             SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
