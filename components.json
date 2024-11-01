@@ -15,6 +15,6 @@
     "utils": "@/bootstrap/helpers/lib/ui-utils",
     "ui": "@/app/components",
     "lib": "@/bootstrap/helpers/lib",
-    "hooks": "@/bootstrap/helpers/vm/hooks"
+    "hooks": "@/bootstrap/helpers/hooks"
   }
 }

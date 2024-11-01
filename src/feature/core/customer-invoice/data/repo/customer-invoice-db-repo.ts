@@ -20,7 +20,7 @@ export default class CustomerInvoiceDbRepo implements CustomerInvoiceRepo {
             FROM invoices
             JOIN customers ON invoices.customer_id = customers.id
             ORDER BY invoices.date DESC
-            LIMIT 5` as postgres.RowList<customerInvoiceDbResponse[]>;
+            LIMIT 20 ` as postgres.RowList<customerInvoiceDbResponse[]>;
 
             return this.customerInvoicesDto(data)
         } catch (error) {

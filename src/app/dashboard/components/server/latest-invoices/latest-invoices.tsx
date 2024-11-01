@@ -48,9 +48,9 @@ export default async function LatestInvoices() {
       <h2 className="mb-4 text-xl md:text-2xl">
         Latest Invoices
       </h2>
-      <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
+      <div className="flex grow flex-col max-h-[66.5vh] justify-between rounded-xl bg-gray-50 p-4">
 
-        <div className="bg-white px-6">
+        <div className="bg-white px-6 h-full overflow-y-auto">
           {invoices}
         </div>
         <div className="flex items-end mt-auto pb-2 pt-6">
