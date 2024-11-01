@@ -1,5 +1,5 @@
 import { LatestInvoicesSkeleton, RevenueChartSkeleton } from "@/app/components/skeleton/skeletons";
-import CardWrapper from "@/app/dashboard/components/cards";
+import CardWrapper from "@/app/dashboard/components/cards/cards";
 import LatestInvoices from "@/app/dashboard/components/latest-invoices";
 import RevenueChart from "@/app/dashboard/components/revenue-chart";
 import { Suspense } from "react";

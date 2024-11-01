@@ -1,5 +1,5 @@
-import { formatCurrency } from "@/app/lib/utils";
 import { sql } from "@/bootstrap/db/db";
+import { formatCurrency } from "@/feature/common/feature-helpers";
 import InvoiceRepo from "@/feature/core/invoice/domain/i-repo/invoice-repo";
 import InvoiceStatusSummary from "@/feature/core/invoice/domain/value-object/invoice-status";
 import postgres from "postgres";

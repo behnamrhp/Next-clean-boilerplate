@@ -1,8 +1,7 @@
-import { formatCurrency } from "@/app/lib/utils";
 import { sql } from "@/bootstrap/db/db";
+import { formatCurrency } from "@/feature/common/feature-helpers";
 import Customer from "@/feature/core/customer/domain/entity/customer";
 import CustomerRepo from "@/feature/core/customer/domain/i-repo/customer-repo";
-import { connection } from "next/server";
 import postgres from "postgres";
 
 type customerDbResponse = {
