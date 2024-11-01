@@ -1,3 +1,4 @@
+import CreateRandomInvoiceContainer from '@/app/dashboard/components/client/create-random-invoice/create-random-invoice';
 import latestInvoicesController from '@/app/dashboard/components/server/latest-invoices/latest-invoices-controller';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
@@ -52,10 +53,11 @@ export default async function LatestInvoices() {
         <div className="bg-white px-6">
           {invoices}
         </div>
-        <div className="flex items-center pb-2 pt-6">
+        <div className="flex items-end mt-auto pb-2 pt-6">
           <ArrowPathIcon className="h-5 w-5 text-gray-500" />
           <h3 className="ml-2 text-sm text-gray-500 ">Updated just now</h3>
         </div>
+        <CreateRandomInvoiceContainer />
       </div>
     </div>
   );
