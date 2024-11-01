@@ -1,0 +1,7 @@
+import di from "@/bootstrap/di/init-di"
+import * as serverDi from "@/feature/common/server-di"
+
+export default function mockDi() {
+    vi.spyOn(serverDi, "default").mockReturnValue(di)
+    return di
+}

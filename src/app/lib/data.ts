@@ -1,10 +1,8 @@
 import { sql } from '@/bootstrap/db/db';
 import {
-  CustomerField,
   CustomersTableType,
   InvoiceForm,
   InvoicesTable,
-  User,
   Revenue,
   Invoice,
   Customer,
@@ -189,25 +187,6 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
-export async function fetchCustomers() {
-    // This is equivalent to in fetch(..., {cache: 'no-store'}).
-    connection()
-  try {
-    const data = await sql`
-      SELECT
-        id,
-        name
-      FROM customers
-      ORDER BY name ASC
-    ` as postgres.RowList<CustomerField[]>;
-
-    return data;
-  } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to fetch all customers.');
-  }
-}
-
 export async function fetchFilteredCustomers(query: string) {
     // This is equivalent to in fetch(..., {cache: 'no-store'}).
     connection()
@@ -240,15 +219,5 @@ export async function fetchFilteredCustomers(query: string) {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer table.');
-  }
-}
-
-export async function getUser(email: string) {
-  try {
-    const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    return user.at(0) as User;
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
   }
 }
