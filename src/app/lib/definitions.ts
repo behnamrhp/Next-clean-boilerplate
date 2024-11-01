@@ -18,14 +18,6 @@ export type Revenue = {
   revenue: number;
 };
 
-export type LatestInvoice = {
-  id: string;
-  name: string;
-  image_url: string;
-  email: string;
-  amount: string;
-};
-
 export type InvoiceForm = {
   id: string;
   customer_id: string;

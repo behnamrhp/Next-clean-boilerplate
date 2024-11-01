@@ -3,7 +3,6 @@ import {
   Revenue,
   Invoice,
   Customer,
-  LatestInvoice,
 } from './definitions';
 import { formatCurrency } from './utils';
 import postgres from 'postgres';
@@ -28,29 +27,6 @@ export async function fetchRevenue() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch revenue data.');
-  }
-}
-
-export async function fetchLatestInvoices() {
-  // This is equivalent to in fetch(..., {cache: 'no-store'}).
-  connection()
-
-  try {
-    const data = await sql`
-      SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
-      FROM invoices
-      JOIN customers ON invoices.customer_id = customers.id
-      ORDER BY invoices.date DESC
-      LIMIT 5` as postgres.RowList<LatestInvoice[]>;
-
-    const latestInvoices = data.map((invoice) => ({
-      ...invoice,
-      amount: formatCurrency(+invoice.amount),
-    }));
-    return latestInvoices;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch the latest invoices.');
   }
 }
 
