@@ -1,4 +1,4 @@
-import { sql } from "@/bootstrap/db/db";
+import { sql } from "@/bootstrap/boundaries/db/db";
 import Revenue from "@/feature/core/revenue/domain/entity/revenue";
 import RevenueRepo from "@/feature/core/revenue/domain/i-repo/revenue-repo";
 import { connection } from "next/server";

@@ -1,4 +1,4 @@
-import { sql } from "@/bootstrap/db/db";
+import { sql } from "@/bootstrap/boundaries/db/db";
 import { formatCurrency } from "@/feature/common/feature-helpers";
 import CustomerInvoice from "@/feature/core/customer-invoice/domain/entity/customer-invoice";
 import CustomerInvoiceRepo from "@/feature/core/customer-invoice/domain/i-repo/customer-invoice-repo";

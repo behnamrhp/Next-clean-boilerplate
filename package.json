@@ -8,7 +8,7 @@
     "start": "next start --port 4000",
     "lint": "next lint",
     "test": "vitest",
-    "seed": "node -r dotenv/config ./src/bootstrap/db/seed.js"
+    "seed": "node -r dotenv/config ./src/bootstrap/boundaries/db/seed.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",

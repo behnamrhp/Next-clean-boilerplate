@@ -25,6 +25,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/bootstrap/db/seed.js", "src/bootstrap/db/placeholder-data.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/bootstrap/boundaries/db/seed.js", "src/bootstrap/boundaries/db/placeholder-data.js"],
   "exclude": ["node_modules"]
 }

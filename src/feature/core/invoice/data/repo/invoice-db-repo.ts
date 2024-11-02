@@ -1,4 +1,4 @@
-import { sql } from "@/bootstrap/db/db";
+import { sql } from "@/bootstrap/boundaries/db/db";
 import { formatCurrency } from "@/feature/common/feature-helpers";
 import InvoiceRepo from "@/feature/core/invoice/domain/i-repo/invoice-repo";
 import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice-param";

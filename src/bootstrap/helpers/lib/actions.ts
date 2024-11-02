@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { sql } from '@/bootstrap/db/db';
+import { sql } from '@/bootstrap/boundaries/db/db';
 
 const FormSchema = z.object({
   id: z.string(),
