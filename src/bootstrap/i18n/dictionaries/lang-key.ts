@@ -1,11 +1,12 @@
 const langKey = {
     global: {
-        home: "Дом",
-        dashboard: "Панель приборов"
+        home: "global.home",
+        dashboard: "global.dashboard",
+        loading: "global.loading"
     },
     dashboard: {
         invoice: {
-            createButton: "Создать случайный счет-фактуру"
+            createButton: "dashboard.invoice.createButton"
         }
     }
 }
