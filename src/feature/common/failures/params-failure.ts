@@ -1,12 +1,12 @@
 import BaseFailure from "./base-failure";
 
 /**
- * Failure for HTTP response when response dosn't have base structure
+ * Failure for params failure 
  */
-export default class NetworkFailure<META_DATA> extends BaseFailure<META_DATA> {
+export default class ParamsFailure<META_DATA> extends BaseFailure<META_DATA> {
   /* ------------------------------- Constructor ------------------------------ */
-  constructor(metaData?: META_DATA) {
-    super("network", metaData);
+  constructor(metadata?: META_DATA) {
+    super("params", metadata);
   }
   /* -------------------------------------------------------------------------- */
 }
