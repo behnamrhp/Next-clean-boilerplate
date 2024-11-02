@@ -2,8 +2,6 @@ import getCustomerInvoiceDi from "@/feature/core/customer-invoice/data/module/cu
 import { customerInvoiceModuleKey } from "@/feature/core/customer-invoice/invoice-module-key";
 import { customerKey } from "@/feature/core/customer/customer-key";
 import getCustomerDi from "@/feature/core/customer/data/module/customer-di";
-import { testModuleKey } from "@/feature/domain/test/test-module-key";
-import getTestModule from "@/feature/infra/test/module/test-module";
 import getInvoiceDi from "@/feature/core/invoice/data/module/invoice-di";
 import { invoiceModuleKey } from "@/feature/core/invoice/invoice-module-key";
 import { DependencyContainer } from "tsyringe";
@@ -17,7 +15,6 @@ const memoizedDis: Record<string, DependencyContainer> = {}
 export default function serverDi(module: string): DependencyContainer {
     if (memoizedDis[module]) return memoizedDis[module]
     const getDi = {
-        [testModuleKey]: getTestModule,
         [customerKey]: getCustomerDi,
         [customerInvoiceModuleKey]: getCustomerInvoiceDi,
         [invoiceModuleKey]: getInvoiceDi,
