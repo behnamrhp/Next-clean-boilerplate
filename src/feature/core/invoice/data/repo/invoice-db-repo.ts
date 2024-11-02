@@ -16,7 +16,7 @@ export default class InvoiceDbRepo implements InvoiceRepo {
     async createInvoice(params: InvoiceParam): Promise<string> {
         const firstCustomerIdDb = await sql`SELECT 
             id FROM customers 
-            ORDER BY id ASC
+            ORDER BY id DESC 
             LIMIT 1
         `
         const customerId = firstCustomerIdDb.at(0)?.id

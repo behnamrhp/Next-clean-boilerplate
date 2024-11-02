@@ -11,7 +11,7 @@ export default class Button extends BaseView<ButtonVm> {
     protected Build(props: BuildProps<ButtonVm>): ReactNode {
         const {vm} = props
         
-        return <ButtonUi onClick={vm.onClick} >{vm.props.title}</ButtonUi> 
+        return <ButtonUi disabled={vm.props.isDisable} onClick={vm.onClick} >{vm.props.title}</ButtonUi> 
     }
 }
 

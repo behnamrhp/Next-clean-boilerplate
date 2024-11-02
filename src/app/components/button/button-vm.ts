@@ -1,6 +1,7 @@
 export default interface ButtonVm {
     props: {
-        title: string
+        title: string;
+        isDisable: boolean;
     }
     onClick(): void
 }
