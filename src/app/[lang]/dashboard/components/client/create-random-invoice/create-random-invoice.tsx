@@ -1,7 +1,7 @@
 "use client"
 
 import Button from "@/app/components/button/button"
-import CreateRandomInvoiceButtonVM from "@/app/dashboard/vm/create-random-invoice-button-vm"
+import CreateRandomInvoiceButtonVM from "@/app/[lang]/dashboard/vm/create-random-invoice-button-vm"
 import { useDI } from "@/bootstrap/di/di-context"
 import { useRef } from "react"
 

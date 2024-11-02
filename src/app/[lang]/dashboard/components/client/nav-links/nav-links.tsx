@@ -1,5 +1,5 @@
 'use client'
-import navLinkPersonalVM from '@/app/dashboard/components/client/nav-links/nav-link-controller';
+import navLinkPersonalVM from '@/app/[lang]/dashboard/components/client/nav-links/nav-link-controller';
 import clsx from 'clsx';
 import Link from 'next/link'
 

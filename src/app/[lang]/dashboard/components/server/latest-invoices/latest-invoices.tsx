@@ -1,5 +1,5 @@
-import CreateRandomInvoiceContainer from '@/app/dashboard/components/client/create-random-invoice/create-random-invoice';
-import latestInvoicesController from '@/app/dashboard/components/server/latest-invoices/latest-invoices-controller';
+import CreateRandomInvoiceContainer from '@/app/[lang]/dashboard/components/client/create-random-invoice/create-random-invoice';
+import latestInvoicesController from '@/app/[lang]/dashboard/components/server/latest-invoices/latest-invoices-controller';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { isLeft } from 'fp-ts/lib/Either';

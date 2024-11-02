@@ -1,6 +1,6 @@
 "use client"
-import SideNav from "@/app/dashboard/components/server/sidenav";
-import dashboardAppModule from "@/app/dashboard/module/dashboard-app-module";
+import SideNav from "@/app/[lang]/dashboard/components/server/sidenav";
+import dashboardAppModule from "@/app/[lang]/dashboard/module/dashboard-app-module";
 import { DiContext } from "@/bootstrap/di/di-context";
 import { useRef } from "react";
 

@@ -1,4 +1,4 @@
-import NavLinks from '@/app/dashboard/components/client/nav-links/nav-links';
+import NavLinks from '@/app/[lang]/dashboard/components/client/nav-links/nav-links';
 import Link from 'next/link';
 
 export default function SideNav() {
