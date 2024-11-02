@@ -2,12 +2,15 @@ import CreateRandomInvoiceContainer from '@/app/dashboard/components/client/crea
 import latestInvoicesController from '@/app/dashboard/components/server/latest-invoices/latest-invoices-controller';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { isLeft } from 'fp-ts/lib/Either';
 import Image from 'next/image';
 
 export default async function LatestInvoices() {
   const latestInvoices = await latestInvoicesController();
 
-  const invoices = latestInvoices.map((invoice, i) => {
+  if (isLeft(latestInvoices)) return <div>Error</div>
+  
+  const invoices = latestInvoices.right.map((invoice, i) => {
             return (
               <div
                 key={invoice.id}
