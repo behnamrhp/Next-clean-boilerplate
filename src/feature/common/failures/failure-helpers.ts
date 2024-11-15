@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BaseFailure from "@/feature/common/failures/base-failure";
 
 /**
@@ -16,16 +17,19 @@ import BaseFailure from "@/feature/common/failures/base-failure";
  * )
  * ```
  * In this example `failureOr` will return already throwed
- * instance of `BaseFailure` which is `ValidationFailure`.
+ * instance of `BaseFailure<any>` which is `ValidationFailure`.
  *
  *
  * @param reason is throwed object.
- * Basically it can be default `Error` or instance of `BaseFailure`.
- * @param failure instance of `BaseFailure` that will be returned
- * if reason is not instance of `BaseFailure`.
- * @returns `BaseFailure`
+ * Basically it can be default `Error` or instance of `BaseFailure<any>`.
+ * @param failure instance of `BaseFailure<any>` that will be returned
+ * if reason is not instance of `BaseFailure<any>`.
+ * @returns `BaseFailure<any>`
  */
-export function failureOr(reason: unknown, failure: BaseFailure): BaseFailure {
+export function failureOr(
+  reason: unknown,
+  failure: BaseFailure<any>,
+): BaseFailure<any> {
   if (reason instanceof BaseFailure) {
     return reason;
   }
@@ -33,16 +37,16 @@ export function failureOr(reason: unknown, failure: BaseFailure): BaseFailure {
 }
 
 /**
- * Returns a function that maps a BaseFailure instance to a new BaseFailure instance of type IfType using the provided mapping function.
- * @param f A function that maps an instance of IfType to a new instance of BaseFailure.
+ * Returns a function that maps a BaseFailure<any> instance to a new BaseFailure<any> instance of type IfType using the provided mapping function.
+ * @param f A function that maps an instance of IfType to a new instance of BaseFailure<any>.
  * @param ctor A constructor function for IfType.
- * @returns A function that maps a BaseFailure instance to a new BaseFailure instance of type IfType.
+ * @returns A function that maps a BaseFailure<any> instance to a new BaseFailure<any> instance of type IfType.
  */
-export function mapToFailureFrom<IfType extends BaseFailure>(
-  f: (t: IfType) => BaseFailure,
+export function mapToFailureFrom<IfType extends BaseFailure<any>>(
+  f: (t: IfType) => BaseFailure<any>,
   ctor: new (...args: never[]) => IfType,
-): (t: BaseFailure) => BaseFailure {
-  return mapIfInstance<IfType, BaseFailure>(f, ctor);
+): (t: BaseFailure<any>) => BaseFailure<any> {
+  return mapIfInstance<IfType, BaseFailure<any>>(f, ctor);
 }
 
 /**
