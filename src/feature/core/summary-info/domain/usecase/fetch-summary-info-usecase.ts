@@ -1,14 +1,12 @@
+import "server-only";
 import serverDi from "@/feature/common/server-di";
 import fetchCustomersAmountUsecase from "@/feature/core/customer/domain/usecase/fetch-customers-amount-usecase";
 import fetchAllInvoicesAmountUsecase from "@/feature/core/invoice/domain/usecase/fetch-all-invoices-amount-usecase";
 import fetchInvoicesStatusSummary from "@/feature/core/invoice/domain/usecase/fetch-invoices-status-summary";
 import { summaryInfoModuleKey } from "@/feature/core/summary-info/domain/summary-info-module-key";
 import SummaryInfo from "@/feature/core/summary-info/domain/value-object/summary-info";
-import { connection } from "next/server";
 
 export default async function fetchSummaryInfoUsecase(): Promise<SummaryInfo> {
-  connection();
-
   try {
     const summaryInfoDi = serverDi(summaryInfoModuleKey);
     const invoicesAmountPromise = summaryInfoDi.resolve<

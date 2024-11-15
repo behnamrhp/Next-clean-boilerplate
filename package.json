@@ -30,6 +30,7 @@
     "react-dom": "19.0.0-rc-69d4b800-20241021",
     "react-i18next": "^15.1.0",
     "reflect-metadata": "^0.2.2",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "tsyringe": "^4.8.0",
