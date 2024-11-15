@@ -1,5 +1,5 @@
-import NavLinks from '@/app/[lang]/dashboard/components/client/nav-links/nav-links';
-import Link from 'next/link';
+import NavLinks from "@/app/[lang]/dashboard/components/client/nav-links/nav-links";
+import Link from "next/link";
 
 export default function SideNav() {
   return (
@@ -8,13 +8,11 @@ export default function SideNav() {
         className="mb-2 flex h-20 items-end justify-start rounded-md bg-blue-600 p-4 md:h-40"
         href="/"
       >
-        <div className="w-32 text-white md:w-40">
-          Home
-        </div>
+        <div className="w-32 text-white md:w-40">Home</div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
-        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
+        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block" />
       </div>
     </div>
   );

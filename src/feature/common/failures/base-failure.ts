@@ -15,12 +15,12 @@ export default abstract class BaseFailure<META_DATA> {
   message = this.BASE_FAILURE_MESSAGE;
 
   /* -------------------------------------------------------------------------- */
-  metadata: META_DATA | undefined; 
+  metadata: META_DATA | undefined;
 
   /* -------------------------------------------------------------------------- */
   constructor(key: string, metadata?: META_DATA) {
     this.message = makeFailureMessage(this.message, key);
-    this.metadata = metadata ?? undefined
+    this.metadata = metadata ?? undefined;
   }
   /* -------------------------------------------------------------------------- */
 }

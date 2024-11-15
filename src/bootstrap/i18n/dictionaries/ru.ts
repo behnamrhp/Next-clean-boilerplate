@@ -1,16 +1,16 @@
-import langKey from "@/bootstrap/i18n/dictionaries/lang-key"
+import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
 
 const ru: typeof langKey = {
-    global: {
-        home: "Дом",
-        loading: "Загрузка",
-        dashboard: "Панель приборов"
+  global: {
+    home: "Дом",
+    loading: "Загрузка",
+    dashboard: "Панель приборов",
+  },
+  dashboard: {
+    invoice: {
+      createButton: "Создать случайный счет-фактуру",
     },
-    dashboard: {
-        invoice: {
-            createButton: "Создать случайный счет-фактуру"
-        }
-    }
-}
+  },
+};
 
-export default ru
+export default ru;

@@ -1,5 +1,5 @@
 // "use client"
-import "reflect-metadata"
+import "reflect-metadata";
 import { container, DependencyContainer } from "tsyringe";
 
 /**

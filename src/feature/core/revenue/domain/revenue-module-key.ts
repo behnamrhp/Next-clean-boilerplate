@@ -1,1 +1,1 @@
-export const revenueModuleKey = "RevenueModuleKey"
+export const revenueModuleKey = "RevenueModuleKey";

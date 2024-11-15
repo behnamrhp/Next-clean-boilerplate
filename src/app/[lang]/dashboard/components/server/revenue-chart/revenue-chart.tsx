@@ -1,8 +1,9 @@
-import revenueChartController from '@/app/[lang]/dashboard/components/server/revenue-chart/revenue-chart-controller';
-import { CalendarIcon } from '@heroicons/react/24/outline';
+import revenueChartController from "@/app/[lang]/dashboard/components/server/revenue-chart/revenue-chart-controller";
+import { CalendarIcon } from "@heroicons/react/24/outline";
 
 export default async function RevenueChart() {
-  const { chartHeight, revenue, topLabel, yAxisLabels } = await revenueChartController()
+  const { chartHeight, revenue, topLabel, yAxisLabels } =
+    await revenueChartController();
 
   if (!revenue || revenue.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;
@@ -10,9 +11,7 @@ export default async function RevenueChart() {
 
   return (
     <div className="w-full md:col-span-4">
-      <h2 className={` mb-4 text-xl md:text-2xl`}>
-        Recent Revenue
-      </h2>
+      <h2 className={` mb-4 text-xl md:text-2xl`}>Recent Revenue</h2>
       <div className="rounded-xl bg-gray-50 p-4">
         <div className="sm:grid-cols-13 mt-0 grid grid-cols-12 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
           <div
@@ -31,7 +30,7 @@ export default async function RevenueChart() {
                 style={{
                   height: `${(chartHeight / topLabel) * month.revenue}px`,
                 }}
-              ></div>
+              />
               <p className="-rotate-90 text-sm text-gray-400 sm:rotate-0">
                 {month.month}
               </p>

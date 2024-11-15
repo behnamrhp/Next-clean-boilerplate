@@ -1,1 +1,1 @@
-export const summaryInfoModuleKey = "summaryInfoModuleKey"
+export const summaryInfoModuleKey = "summaryInfoModuleKey";

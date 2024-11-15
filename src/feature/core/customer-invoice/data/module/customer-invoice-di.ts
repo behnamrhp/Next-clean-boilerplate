@@ -4,8 +4,8 @@ import { customerInvoiceRepoKey } from "@/feature/core/customer-invoice/domain/i
 import { DependencyContainer } from "tsyringe";
 
 export default function getCustomerInvoiceDi(): DependencyContainer {
-    const customerInvoiceDi = di.createChildContainer()
+  const customerInvoiceDi = di.createChildContainer();
 
-    customerInvoiceDi.register(customerInvoiceRepoKey, CustomerInvoiceDbRepo)
-    return customerInvoiceDi
+  customerInvoiceDi.register(customerInvoiceRepoKey, CustomerInvoiceDbRepo);
+  return customerInvoiceDi;
 }

@@ -9,5 +9,87 @@
       }
     }
   ],
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "plugins": [
+    "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "alias": {
+        "map": [
+          [
+            "~",
+            "./src"
+          ]
+        ],
+        "extensions": [
+          ".js",
+          ".ts",
+          ".tsx",
+          ".d.ts",
+          ".test.ts",
+          ".json"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "no-use-before-define": "off",
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off",
+    "no-promise-executor-return": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "react/require-default-props": "off",
+    "no-shadow": "off",
+    "prettier/prettier": [
+      "warn",
+      {
+        "printWidth": 80,
+        "tabWidth": 2,
+        "endOfLine":"auto",
+        "useTabs": false,
+        "semi": true,
+        "singleQuote": false,
+        "quoteProps": "as-needed",
+        "jsxSingleQuote": false,
+        "trailingComma": "all",
+        "bracketSpacing": true,
+        "arrowParens": "always"
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  },
+  "extends": [
+    "airbnb",
+    "next/core-web-vitals", 
+    "next/typescript",
+    "prettier"
+  ]
 }

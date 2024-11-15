@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 // import gdi from "@/bootstrap/di/init-di";
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -23,7 +24,7 @@ const VvmConnector = memo(
   <IVM, PROPS>(props: IVvmConnector<IVM, PROPS>) => {
     const { View, Vm, restProps, children } = props;
 
-    const vm = Vm.useVM()
+    const vm = Vm.useVM();
 
     const allProps = {
       restProps,
@@ -69,17 +70,17 @@ export default abstract class BaseView<
   IVM extends IVMParent,
   PROPS extends IPropParent = undefined,
 > extends Component<BaseProps<IVM, PROPS>> {
-  protected abstract Build(props: BuildProps<IVM, PROPS>): ReactNode;
-
   protected get componentName() {
-    return this.constructor.name
+    return this.constructor.name;
   }
+
+  protected abstract Build(props: BuildProps<IVM, PROPS>): ReactNode;
 
   render(): ReactNode {
     const { vm, restProps, memoizedByVM, children, ...rest } = this.props;
-    
-    VvmConnector.displayName = this.componentName
-  
+
+    VvmConnector.displayName = this.componentName;
+
     return (
       <VvmConnector
         View={this.Build}

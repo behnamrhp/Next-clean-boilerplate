@@ -1,14 +1,10 @@
 export default class Revenue {
-    month: string;
-    revenue: number;
+  month: string;
 
-    constructor(
-        {
-            month,
-            revenue
-        }: Revenue
-    ) {
-        this.month = month
-        this.revenue = revenue
-    }
+  revenue: number;
+
+  constructor({ month, revenue }: Revenue) {
+    this.month = month;
+    this.revenue = revenue;
+  }
 }

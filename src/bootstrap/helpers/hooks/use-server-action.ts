@@ -1,11 +1,11 @@
-import { useState, useEffect, useTransition, useRef } from 'react';
+import { useState, useEffect, useTransition, useRef } from "react";
 
 /**
- * 
+ *
  * @param action Main server action to run
  * @param onFinished Callback to run after action
  * @returns transitioned action to run and is pending variable
-*/
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useServerAction = <P extends any[], R>(
   action: (...args: P) => Promise<R>,

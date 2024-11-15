@@ -4,8 +4,8 @@ import { invoiceRepoKey } from "@/feature/core/invoice/domain/i-repo/invoice-rep
 import { DependencyContainer } from "tsyringe";
 
 export default function getInvoiceDi(): DependencyContainer {
-    const invoiceDi = di.createChildContainer()
+  const invoiceDi = di.createChildContainer();
 
-    invoiceDi.register(invoiceRepoKey, invoiceDbRepo)
-    return invoiceDi
+  invoiceDi.register(invoiceRepoKey, invoiceDbRepo);
+  return invoiceDi;
 }

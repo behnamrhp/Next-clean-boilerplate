@@ -1,12 +1,14 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-require-imports */
+const bcrypt = require("bcrypt");
+const postgres = require("postgres");
 const {
   invoices,
   customers,
   revenue,
   users,
-} = require('./placeholder-data.js');
-const bcrypt = require('bcrypt');
-const postgres = require('postgres');
+  // eslint-disable-next-line import/extensions
+} = require("./placeholder-data.js");
 
 async function seedUsers(sql) {
   try {
@@ -42,7 +44,7 @@ async function seedUsers(sql) {
       users: insertedUsers,
     };
   } catch (error) {
-    console.error('Error seeding users:', error);
+    console.error("Error seeding users:", error);
     throw error;
   }
 }
@@ -82,7 +84,7 @@ async function seedInvoices(sql) {
       invoices: insertedInvoices,
     };
   } catch (error) {
-    console.error('Error seeding invoices:', error);
+    console.error("Error seeding invoices:", error);
     throw error;
   }
 }
@@ -121,7 +123,7 @@ async function seedCustomers(sql) {
       customers: insertedCustomers,
     };
   } catch (error) {
-    console.error('Error seeding customers:', error);
+    console.error("Error seeding customers:", error);
     throw error;
   }
 }
@@ -156,7 +158,7 @@ async function seedRevenue(sql) {
       revenue: insertedRevenue,
     };
   } catch (error) {
-    console.error('Error seeding revenue:', error);
+    console.error("Error seeding revenue:", error);
     throw error;
   }
 }
@@ -169,7 +171,7 @@ async function main() {
     username: envs.POSTGRES_USER,
     password: envs.POSTGRES_PASS,
     database: envs.POSTGRES_DB,
-  }
+  };
 
   const sql = postgres(dbConfigs);
 
@@ -177,12 +179,11 @@ async function main() {
   await seedCustomers(sql);
   await seedInvoices(sql);
   await seedRevenue(sql);
-
 }
 
 main().catch((err) => {
   console.error(
-    'An error occurred while attempting to seed the database:',
+    "An error occurred while attempting to seed the database:",
     err,
   );
 });

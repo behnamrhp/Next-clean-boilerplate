@@ -1,1 +1,1 @@
-export const customerKey = "customerKey"
+export const customerKey = "customerKey";

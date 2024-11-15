@@ -1,12 +1,10 @@
 export default class InvoiceStatusSummary {
-    paid: string;
-    pending: string;
+  paid: string;
 
-    constructor({
-        paid,
-        pending
-    }: InvoiceStatusSummary) {
-        this.paid = paid;
-        this.pending = pending;
-    }
+  pending: string;
+
+  constructor({ paid, pending }: InvoiceStatusSummary) {
+    this.paid = paid;
+    this.pending = pending;
+  }
 }

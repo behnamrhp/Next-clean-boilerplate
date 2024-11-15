@@ -11,8 +11,8 @@ export default async function revenueChartController() {
     revenue,
     chartHeight,
     yAxisLabels,
-    topLabel
-  }
+    topLabel,
+  };
 }
 
 function generateYAxis(revenue: Revenue[]) {
@@ -27,4 +27,4 @@ function generateYAxis(revenue: Revenue[]) {
   }
 
   return { yAxisLabels, topLabel };
-};
+}

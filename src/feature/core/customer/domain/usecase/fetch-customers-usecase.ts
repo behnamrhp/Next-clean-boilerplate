@@ -1,14 +1,19 @@
-"use server"
+"use server";
 
+import { ApiEither } from "@/feature/common/data/api-task";
 import serverDi from "@/feature/common/server-di";
 import { customerKey } from "@/feature/core/customer/customer-key";
 import Customer from "@/feature/core/customer/domain/entity/customer";
-import CustomerRepo, { customerRepoKey } from "@/feature/core/customer/domain/i-repo/customer-repo";
+import CustomerRepo, {
+  customerRepoKey,
+} from "@/feature/core/customer/domain/i-repo/customer-repo";
 import { connection } from "next/server";
 
-export default async function fetchCustomersUsecase(query: string): Promise<Customer[]> {
-    connection()
-    const repo = serverDi(customerKey).resolve<CustomerRepo>(customerRepoKey)
+export default function fetchCustomersUsecase(
+  query: string,
+): Promise<ApiEither<Customer[]>> {
+  connection();
+  const repo = serverDi(customerKey).resolve<CustomerRepo>(customerRepoKey);
 
-    return repo.fetchList(query)
+  return repo.fetchList(query)();
 }

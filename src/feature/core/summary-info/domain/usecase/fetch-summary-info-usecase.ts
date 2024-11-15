@@ -7,28 +7,33 @@ import SummaryInfo from "@/feature/core/summary-info/domain/value-object/summary
 import { connection } from "next/server";
 
 export default async function fetchSummaryInfoUsecase(): Promise<SummaryInfo> {
-    connection()
+  connection();
 
-    try{
-        const summaryInfoDi = serverDi(summaryInfoModuleKey)
-        const invoicesAmountPromise = summaryInfoDi.resolve<typeof fetchAllInvoicesAmountUsecase>(fetchAllInvoicesAmountUsecase.name)()
-        const customersAmountPromise = summaryInfoDi.resolve<typeof fetchCustomersAmountUsecase>(fetchCustomersAmountUsecase.name)()
-        const invoiceSummaryPomise = summaryInfoDi.resolve<typeof fetchInvoicesStatusSummary>(fetchInvoicesStatusSummary.name)()
+  try {
+    const summaryInfoDi = serverDi(summaryInfoModuleKey);
+    const invoicesAmountPromise = summaryInfoDi.resolve<
+      typeof fetchAllInvoicesAmountUsecase
+    >(fetchAllInvoicesAmountUsecase.name)();
+    const customersAmountPromise = summaryInfoDi.resolve<
+      typeof fetchCustomersAmountUsecase
+    >(fetchCustomersAmountUsecase.name)();
+    const invoiceSummaryPomise = summaryInfoDi.resolve<
+      typeof fetchInvoicesStatusSummary
+    >(fetchInvoicesStatusSummary.name)();
 
-        const [invoicesAmount, customersAmount, invoicesSummary] = await Promise.all([
-            invoicesAmountPromise,
-            customersAmountPromise,
-            invoiceSummaryPomise,
-        ]);
+    const [invoicesAmount, customersAmount, invoicesSummary] =
+      await Promise.all([
+        invoicesAmountPromise,
+        customersAmountPromise,
+        invoiceSummaryPomise,
+      ]);
 
-
-        return new SummaryInfo({
-            invoicesNumber: invoicesAmount,
-            customersNumber: customersAmount,
-            invoicesSummary: invoicesSummary
-        })
-    } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch card data.');
-    }
+    return new SummaryInfo({
+      invoicesNumber: invoicesAmount,
+      customersNumber: customersAmount,
+      invoicesSummary,
+    });
+  } catch {
+    throw new Error("Failed to fetch card data.");
+  }
 }

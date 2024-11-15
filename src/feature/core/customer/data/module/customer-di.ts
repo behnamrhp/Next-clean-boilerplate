@@ -4,8 +4,8 @@ import { customerRepoKey } from "@/feature/core/customer/domain/i-repo/customer-
 import { DependencyContainer } from "tsyringe";
 
 export default function getCustomerDi(): DependencyContainer {
-    const customerDi = di.createChildContainer()
+  const customerDi = di.createChildContainer();
 
-    customerDi.register(customerRepoKey, CustomerDbRepo)
-    return customerDi
+  customerDi.register(customerRepoKey, CustomerDbRepo);
+  return customerDi;
 }

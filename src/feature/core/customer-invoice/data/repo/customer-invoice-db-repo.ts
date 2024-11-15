@@ -15,39 +15,44 @@ type customerInvoiceDbResponse = {
   image_url: string;
   email: string;
   amount: string;
-}
+};
 
 export default class CustomerInvoiceDbRepo implements CustomerInvoiceRepo {
-    fetchList(): ApiTask<CustomerInvoice[]> {
-        return pipe(
-            tryCatch(
-                async () => {
-                    const response = await sql`
+  fetchList(): ApiTask<CustomerInvoice[]> {
+    return pipe(
+      tryCatch(
+        async () => {
+          const response = (await sql`
                     SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
                     FROM invoices
                     JOIN customers ON invoices.customer_id = customers.id
                     ORDER BY invoices.date DESC
-                    LIMIT 20 ` as postgres.RowList<customerInvoiceDbResponse[]>;
-                    
-                    return  this.customerInvoicesDto(response)
-                },
-                (l) => failureOr(l, new NetworkFailure())
-            )
-        )
-    }
+                    LIMIT 20 `) as postgres.RowList<
+            customerInvoiceDbResponse[]
+          >;
 
-    private customerInvoicesDto(dbCustomers: customerInvoiceDbResponse[]): CustomerInvoice[] {
-        return  dbCustomers.map((customer) => this.customerInvoiceDto(customer));
-    }
+          return this.customerInvoicesDto(response);
+        },
+        (l) => failureOr(l, new NetworkFailure()),
+      ),
+    );
+  }
 
-    private customerInvoiceDto(dbCustomer: customerInvoiceDbResponse): CustomerInvoice {
-        return new CustomerInvoice({
-            id: dbCustomer.id,
-            customerName: dbCustomer.name,
-            customerEmail: dbCustomer.email,
-            customerImageUrl: dbCustomer.image_url,
-            invoicesAmount: formatCurrency(+dbCustomer.amount),
-        })
-    }
+  private customerInvoicesDto(
+    dbCustomers: customerInvoiceDbResponse[],
+  ): CustomerInvoice[] {
+    return dbCustomers.map((customer) => this.customerInvoiceDto(customer));
+  }
 
+  private customerInvoiceDto(
+    dbCustomer: customerInvoiceDbResponse,
+  ): CustomerInvoice {
+    return new CustomerInvoice({
+      id: dbCustomer.id,
+      customerName: dbCustomer.name,
+      customerEmail: dbCustomer.email,
+      customerImageUrl: dbCustomer.image_url,
+      invoicesAmount: formatCurrency(+dbCustomer.amount),
+    });
+  }
 }

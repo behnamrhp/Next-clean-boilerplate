@@ -8,39 +8,46 @@ import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-i
 import { faker } from "@faker-js/faker";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+
 export default class CreateRandomInvoiceButtonVM extends BaseVM<ButtonVm> {
-    private createInvoice: typeof createInvoiceUsecase
+  private createInvoice: typeof createInvoiceUsecase;
 
-    constructor() {
-        super()
-        this.createInvoice = this.di.resolve(createInvoiceUsecase.name)
-    }
+  constructor() {
+    super();
+    this.createInvoice = this.di.resolve(createInvoiceUsecase.name);
+  }
 
-    useVM(): ButtonVm {
-        const router = useRouter()
-        const [action, isPending] = useServerAction(() => this.onClickHandler(router.refresh))
-        const throttledOnClick = useThrottle(action, 5000)
+  useVM(): ButtonVm {
+    const router = useRouter();
+    const [action, isPending] = useServerAction(() =>
+      this.onClickHandler(router.refresh),
+    );
+    const throttledOnClick = useThrottle(action, 5000);
 
-        const {t} = useTranslation()
-        
-        return {
-            props: {
-                title: t(isPending ? langKey.global.loading : langKey.dashboard.invoice.createButton),
-                isDisable: isPending ? true : false
-            },
-            onClick: throttledOnClick.bind(this)
-        }
-    }
+    const { t } = useTranslation();
 
-    async onClickHandler(refreshPage: () => void) {
-        const fakedParams: InvoiceParam = {
-            amount: faker.number.int({
-                min: 1,
-                max: 10
-            }),
-            status: "paid"
-        }
-        await this.createInvoice(fakedParams)
-        refreshPage()
-    }
-} 
+    return {
+      props: {
+        title: t(
+          isPending
+            ? langKey.global.loading
+            : langKey.dashboard.invoice.createButton,
+        ),
+        isDisable: !!isPending,
+      },
+      onClick: throttledOnClick.bind(this),
+    };
+  }
+
+  async onClickHandler(refreshPage: () => void) {
+    const fakedParams: InvoiceParam = {
+      amount: faker.number.int({
+        min: 1,
+        max: 10,
+      }),
+      status: "paid",
+    };
+    await this.createInvoice(fakedParams);
+    refreshPage();
+  }
+}
