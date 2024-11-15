@@ -3,6 +3,8 @@ import { createInstance, i18n, Resource } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
 
+const initI18nextInstance = createInstance();
+
 export const initI18next = async (params: {
   lng: string;
   i18n?: i18n;
@@ -10,7 +12,7 @@ export const initI18next = async (params: {
   ns?: string;
 }) => {
   const { lng, i18n, ns, resources } = params;
-  const i18nInstance = i18n || createInstance();
+  const i18nInstance = i18n || initI18nextInstance;
   await i18nInstance
     .use(initReactI18next)
     .use(
