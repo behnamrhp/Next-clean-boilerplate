@@ -1,0 +1,11 @@
+import di from "@/bootstrap/di/init-di";
+import CustomerInvoiceDbRepo from "@/feature/core/customer-invoice/data/repo/customer-invoice-db-repo";
+import { customerInvoiceRepoKey } from "@/feature/core/customer-invoice/domain/i-repo/customer-invoice-repo";
+import { DependencyContainer } from "tsyringe";
+
+export default function getCustomerInvoiceDi(): DependencyContainer {
+  const customerInvoiceDi = di.createChildContainer();
+
+  customerInvoiceDi.register(customerInvoiceRepoKey, CustomerInvoiceDbRepo);
+  return customerInvoiceDi;
+}
