@@ -5,14 +5,19 @@
         "src/**/*-vm.ts"
       ],
       "rules": {
-          "react-hooks/rules-of-hooks": "off"
+        "react-hooks/rules-of-hooks": "off"
       }
+    },
+    {
+      "files": [
+        "src/app/**/*.stories.tsx"
+      ],
+      "rules": {
+        "react/jsx-props-no-spreading": "off"
+      }      
     }
   ],
-  "plugins": [
-    "prettier"
-  ],
-  "settings": {
+    "settings": {
     "react": {
       "version": "detect"
     },
@@ -35,6 +40,16 @@
       }
     }
   },
+  "plugins": [
+    "prettier"
+  ],
+  "extends": [
+    "airbnb",
+    "next/core-web-vitals",
+    "next/typescript",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
   "rules": {
     "no-use-before-define": "off",
     "class-methods-use-this": "off",
@@ -43,13 +58,24 @@
     "no-promise-executor-return": "off",
     "@typescript-eslint/no-shadow": "off",
     "react/require-default-props": "off",
+    "import/order": [
+      "error",
+      {
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "external"
+          }
+        ]
+      } 
+    ],
     "no-shadow": "off",
     "prettier/prettier": [
       "warn",
       {
         "printWidth": 80,
         "tabWidth": 2,
-        "endOfLine":"auto",
+        "endOfLine": "auto",
         "useTabs": false,
         "semi": true,
         "singleQuote": false,
@@ -85,11 +111,5 @@
         "devDependencies": true
       }
     ]
-  },
-  "extends": [
-    "airbnb",
-    "next/core-web-vitals", 
-    "next/typescript",
-    "prettier"
-  ]
+  }
 }

@@ -1,23 +1,26 @@
 import { getOptions, languages } from "@/bootstrap/i18n/settings";
-import { createInstance, i18n, Resource } from "i18next";
+import { createInstance, Resource } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
 
-const initI18nextInstance = createInstance();
+export const i18nInstance = createInstance();
+
+export enum LANGS {
+  EN = "en",
+  RU = "ru",
+}
 
 export const initI18next = async (params: {
-  lng: string;
-  i18n?: i18n;
+  lng: LANGS;
   resources?: Resource;
   ns?: string;
 }) => {
-  const { lng, i18n, ns, resources } = params;
-  const i18nInstance = i18n || initI18nextInstance;
+  const { lng, ns, resources } = params;
   await i18nInstance
     .use(initReactI18next)
     .use(
       resourcesToBackend(
-        (language: string) => import(`./dictionaries/${language}.ts`),
+        (language: LANGS) => import(`./dictionaries/${language}.ts`),
       ),
     )
     .init({
@@ -36,18 +39,17 @@ export const initI18next = async (params: {
 };
 
 export async function getServerTranslation(
-  lng: string,
+  lng: LANGS,
   ns?: string,
   options: { keyPrefix?: string } = {},
 ) {
-  const i18nextInstance = (await initI18next({ lng, ns })).i18n;
-
+  await initI18next({ lng });
   return {
-    t: i18nextInstance.getFixedT(
+    t: i18nInstance.getFixedT(
       lng,
       Array.isArray(ns) ? ns[0] : ns,
       options?.keyPrefix,
     ),
-    i18n: i18nextInstance,
+    i18n: i18nInstance,
   };
 }

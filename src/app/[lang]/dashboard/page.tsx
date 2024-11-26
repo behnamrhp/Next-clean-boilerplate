@@ -6,11 +6,11 @@ import CardWrapper from "@/app/[lang]/dashboard/components/server/cards/cards";
 import LatestInvoices from "@/app/[lang]/dashboard/components/server/latest-invoices/latest-invoices";
 import RevenueChart from "@/app/[lang]/dashboard/components/server/revenue-chart/revenue-chart";
 import { Suspense } from "react";
-import { getServerTranslation } from "@/bootstrap/i18n/i18n";
+import { getServerTranslation, LANGS } from "@/bootstrap/i18n/i18n";
 import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
 
 export default async function Dashboard(props: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: LANGS }>;
 }) {
   const { params } = props;
   const { lang } = await params;

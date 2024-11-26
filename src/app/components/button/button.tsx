@@ -11,7 +11,6 @@ import { cn } from "@/bootstrap/helpers/lib/ui-utils";
 export default class Button extends BaseView<ButtonVm> {
   protected Build(props: BuildProps<ButtonVm>): ReactNode {
     const { vm } = props;
-
     return (
       <ButtonUi disabled={vm.props.isDisable} onClick={vm.onClick}>
         {vm.props.title}

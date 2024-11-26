@@ -8,7 +8,9 @@
     "start": "next start --port 4000",
     "lint": "next lint --fix",
     "test": "vitest",
-    "seed": "node -r dotenv/config ./src/bootstrap/boundaries/db/seed.js"
+    "seed": "node -r dotenv/config ./src/bootstrap/boundaries/db/seed.js",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
@@ -24,6 +26,7 @@
     "lucide-react": "^0.454.0",
     "next": "15.0.2",
     "next-i18n-router": "^5.5.1",
+    "next-themes": "^0.4.3",
     "postgres": "^3.4.5",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-cookie": "^7.2.2",
@@ -37,7 +40,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.2",
     "@faker-js/faker": "^9.1.0",
+    "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-interactions": "^8.4.5",
+    "@storybook/addon-onboarding": "^8.4.5",
+    "@storybook/blocks": "^8.4.5",
+    "@storybook/nextjs": "^8.4.5",
+    "@storybook/react": "^8.4.5",
+    "@storybook/test": "^8.4.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
     "@types/node": "^20",
@@ -53,10 +64,13 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-storybook": "^0.11.1",
     "jsdom": "^25.0.1",
     "moq.ts": "^10.0.8",
     "postcss": "^8",
     "prettier": "^3.3.3",
+    "storybook": "^8.4.5",
+    "storybook-dark-mode": "^4.0.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^2.1.4"
