@@ -20,7 +20,7 @@ export default async function layout(
 ) {
   const { params, children } = props;
   const { lang } = await params;
-  const { resources } = await initI18next({ lng: lang });
+  await initI18next({ lng: lang });
   return (
     <html lang={lang} suppressHydrationWarning>
       <body
@@ -32,9 +32,7 @@ export default async function layout(
           enableSystem
           disableTransitionOnChange
         >
-          <TranslationsProvider lng={lang} resources={resources}>
-            {children}
-          </TranslationsProvider>
+          <TranslationsProvider lng={lang}>{children}</TranslationsProvider>
         </ThemeProvider>
       </body>
     </html>
