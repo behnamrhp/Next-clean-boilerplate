@@ -1,4 +1,3 @@
-import "server-only";
 import serverDi from "@/feature/common/server.di";
 import fetchCustomersAmountUsecase from "@/feature/core/customer/domain/usecase/fetch-customers-amount-usecase";
 import fetchAllInvoicesAmountUsecase from "@/feature/core/invoice/domain/usecase/fetch-all-invoices-amount.usecase";

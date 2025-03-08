@@ -1,4 +1,3 @@
-import "server-only";
 import serverDi from "@/feature/common/server.di";
 import InvoiceRepo, {
   invoiceRepoKey,

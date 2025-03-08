@@ -1,3 +1,4 @@
+import createInvoiceController from "@/app/[lang]/dashboard/controller/create-invoice.controller";
 import ButtonVm from "@/app/components/button/button.i-vm";
 import { useServerAction } from "@/bootstrap/helpers/hooks/use-server-action";
 import useThrottle from "@/bootstrap/helpers/hooks/use-throttle";
@@ -19,7 +20,7 @@ export default class CreateRandomInvoiceButtonVM extends BaseVM<ButtonVm> {
 
   constructor() {
     super();
-    this.createInvoice = this.di.resolve(createInvoiceUsecase.name);
+    this.createInvoice = createInvoiceController;
   }
 
   useVM(): ButtonVm {

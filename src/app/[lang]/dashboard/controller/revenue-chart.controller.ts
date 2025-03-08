@@ -3,6 +3,9 @@ import fetchRevenuesUsecase from "@/feature/core/revenue/domain/usecase/fetch-re
 
 /**
  * Controllers are bridge between feature layer and application layer.
+ * They decide, feature layer will be cached or not, where to run in client or server
+ * Or connect multiple usecases and run them, handle their failure, hydrate and store data in
+ *  client state managements.
  */
 export default async function revenueChartController() {
   const revenue = await fetchRevenuesUsecase();

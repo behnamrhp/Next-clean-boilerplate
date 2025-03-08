@@ -1,5 +1,3 @@
-"use server";
-
 import { ApiEither } from "@/feature/common/data/api-task";
 import ParamsFailure from "@/feature/common/failures/params.failure";
 import serverDi from "@/feature/common/server.di";

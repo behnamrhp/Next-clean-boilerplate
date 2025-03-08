@@ -1,4 +1,3 @@
-import "server-only";
 import { ApiEither } from "@/feature/common/data/api-task";
 import serverDi from "@/feature/common/server.di";
 import CustomerInvoice from "@/feature/core/customer-invoice/domain/entity/customer-invoice.entity";

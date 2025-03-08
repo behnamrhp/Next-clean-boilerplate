@@ -1,5 +1,5 @@
-import { Card } from "@/app/[lang]/dashboard/components/server/card/card";
-import cardsController from "@/app/[lang]/dashboard/components/server/cards/cards.controller";
+import { Card } from "@/app/[lang]/dashboard/components/server/card";
+import cardsController from "@/app/[lang]/dashboard/controller/cards.controller";
 
 export default async function CardWrapper() {
   const { customersNumber, invoicesNumber, invoicesSummary } =

@@ -1,3 +1,4 @@
+import "server-only";
 import { sql } from "@/bootstrap/boundaries/db/db";
 import ApiTask from "@/feature/common/data/api-task";
 import { failureOr } from "@/feature/common/failures/failure-helpers";
