@@ -1,8 +1,13 @@
 "use server";
 
 import { ApiEither } from "@/feature/common/data/api-task";
+import serverDi from "@/feature/common/server.di";
 import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice.param";
-import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-invoice.usecase";
+import {
+  CreateInvoiceUsecase,
+  createInvoiceUsecaseKey,
+} from "@/feature/core/invoice/domain/usecase/create-invoice/create-invoice.usecase";
+import { invoiceModuleKey } from "@/feature/core/invoice/invoice.module-key";
 import { connection } from "next/server";
 
 /**
@@ -15,5 +20,8 @@ export default async function createInvoiceController(
   params: InvoiceParam,
 ): Promise<ApiEither<string>> {
   connection();
-  return createInvoiceUsecase(params);
+  const usecase = serverDi(invoiceModuleKey).resolve<CreateInvoiceUsecase>(
+    createInvoiceUsecaseKey,
+  );
+  return usecase(params);
 }

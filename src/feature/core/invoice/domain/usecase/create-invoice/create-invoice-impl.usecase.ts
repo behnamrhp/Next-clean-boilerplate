@@ -9,12 +9,13 @@ import {
   invoiceSchema,
 } from "@/feature/core/invoice/domain/param/invoice.param";
 import { invoiceModuleKey } from "@/feature/core/invoice/invoice.module-key";
+import { CreateInvoiceUsecase } from "@/feature/core/invoice/domain/usecase/create-invoice/create-invoice.usecase";
 import { pipe } from "fp-ts/lib/function";
 import { chain, fromNullable, left, map, right } from "fp-ts/lib/TaskEither";
 
-export default async function createInvoiceUsecase(
+const createInvoiceUsecase: CreateInvoiceUsecase = async (
   params: InvoiceParam,
-): Promise<ApiEither<string>> {
+): Promise<ApiEither<string>> => {
   const repo = serverDi(invoiceModuleKey).resolve<InvoiceRepo>(invoiceRepoKey);
 
   return pipe(
@@ -27,4 +28,6 @@ export default async function createInvoiceUsecase(
     }),
     chain((params) => repo.createInvoice(params)),
   )();
-}
+};
+
+export default createInvoiceUsecase;

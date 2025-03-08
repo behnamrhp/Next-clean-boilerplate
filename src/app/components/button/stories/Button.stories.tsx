@@ -4,7 +4,7 @@ import { DiContext, useDI } from "@/bootstrap/di/di-context";
 import mockedModuleDi from "@/bootstrap/di/mocked-module-di";
 import Story from "@/bootstrap/helpers/view/storybook-base-template-type";
 import getArgVM from "@/bootstrap/helpers/view/storybook-with-arg-vm";
-import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-invoice.usecase";
+import { createInvoiceUsecaseKey } from "@/feature/core/invoice/domain/usecase/create-invoice/create-invoice.usecase";
 import type { Meta } from "@storybook/react";
 import { useRef } from "react";
 
@@ -36,30 +36,32 @@ export const Primary: Story = {
 export const WithVM: Story = {
   decorators: [
     (Story) => {
-      const di = mockedModuleDi([
-        {
-          token: CreateRandomInvoiceButtonVM,
-          provider: CreateRandomInvoiceButtonVM,
-        },
-        {
-          token: createInvoiceUsecase.name,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-console
-          provider: (args: any) => console.log("clicked", args),
-        },
-      ]);
-      return <Story di={di} />;
+      const di = useRef(
+        mockedModuleDi([
+          {
+            token: CreateRandomInvoiceButtonVM,
+            provider: CreateRandomInvoiceButtonVM,
+          },
+          {
+            token: createInvoiceUsecaseKey,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-console
+            provider: (args: any) => console.log("clicked", args),
+          },
+        ]),
+      );
+      return (
+        <DiContext.Provider value={di.current}>
+          <Story di={di.current} />
+        </DiContext.Provider>
+      );
     },
   ],
-  render: (_, globalProps) => {
+  render: () => {
     function Child() {
       const di = useDI();
       const vm = useRef(di.resolve(CreateRandomInvoiceButtonVM));
       return <Button vm={vm.current} memoizedByVM={false} />;
     }
-    return (
-      <DiContext.Provider value={globalProps.di}>
-        <Child />
-      </DiContext.Provider>
-    );
+    return <Child />;
   },
 };
