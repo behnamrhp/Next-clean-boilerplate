@@ -10,7 +10,7 @@ export enum LANGS {
   RU = "ru",
 }
 
-export const initI18next = async (params: {
+export const getI18n = async (params: {
   lng: LANGS;
   resources?: Resource;
   ns?: string;
@@ -43,13 +43,9 @@ export async function getServerTranslation(
   ns?: string,
   options: { keyPrefix?: string } = {},
 ) {
-  await initI18next({ lng });
+  const { i18n } = await getI18n({ lng });
   return {
-    t: i18nInstance.getFixedT(
-      lng,
-      Array.isArray(ns) ? ns[0] : ns,
-      options?.keyPrefix,
-    ),
+    t: i18n.getFixedT(lng, Array.isArray(ns) ? ns[0] : ns, options?.keyPrefix),
     i18n: i18nInstance,
   };
 }
