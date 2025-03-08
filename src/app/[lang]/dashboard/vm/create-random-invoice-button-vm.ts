@@ -1,3 +1,5 @@
+"use client";
+
 import createInvoiceController from "@/app/[lang]/dashboard/controller/create-invoice.controller";
 import ButtonVm from "@/app/components/button/button.i-vm";
 import { useServerAction } from "@/bootstrap/helpers/hooks/use-server-action";
@@ -5,7 +7,6 @@ import useThrottle from "@/bootstrap/helpers/hooks/use-throttle";
 import BaseVM from "@/bootstrap/helpers/vm/base-vm";
 import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
 import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice.param";
-import { CreateInvoiceUsecase } from "@/feature/core/invoice/domain/usecase/create-invoice/create-invoice.usecase";
 import { faker } from "@faker-js/faker";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -16,11 +17,13 @@ import { useTranslation } from "react-i18next";
  *  in this layer.
  */
 export default class CreateRandomInvoiceButtonVM extends BaseVM<ButtonVm> {
-  private createInvoice: CreateInvoiceUsecase;
+  private createInvoice: typeof createInvoiceController;
 
   constructor() {
     super();
-    this.createInvoice = createInvoiceController;
+    this.createInvoice = this.di.resolve(
+      createInvoiceController.prototype.name,
+    );
   }
 
   useVM(): ButtonVm {
