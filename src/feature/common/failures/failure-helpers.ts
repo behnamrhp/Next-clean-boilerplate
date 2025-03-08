@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import BaseFailure from "@/feature/common/failures/base-failure";
+import BaseFailure from "@/feature/common/failures/base.failure";
 
 /**
  * This method is supposed to save previous failure of TaskEither

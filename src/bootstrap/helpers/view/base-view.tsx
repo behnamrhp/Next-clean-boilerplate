@@ -66,6 +66,11 @@ export type BuildProps<
   children?: ReactNode;
 };
 
+/**
+ * Base view is base component for all views in mvvm architecture which gets
+ *  vm as props and connect it to the view and memoize the component by default
+ *  to just render just on changes of its vm.
+ */
 export default abstract class BaseView<
   IVM extends IVMParent,
   PROPS extends IPropParent = undefined,

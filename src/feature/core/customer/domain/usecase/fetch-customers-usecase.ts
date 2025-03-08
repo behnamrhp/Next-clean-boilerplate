@@ -1,6 +1,6 @@
 import "server-only";
 import { ApiEither } from "@/feature/common/data/api-task";
-import serverDi from "@/feature/common/server-di";
+import serverDi from "@/feature/common/server.di";
 import { customerKey } from "@/feature/core/customer/customer-key";
 import Customer from "@/feature/core/customer/domain/entity/customer";
 import CustomerRepo, {

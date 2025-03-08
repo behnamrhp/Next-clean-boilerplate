@@ -1,14 +1,19 @@
-import ButtonVm from "@/app/components/button/button-vm";
+import ButtonVm from "@/app/components/button/button.i-vm";
 import { useServerAction } from "@/bootstrap/helpers/hooks/use-server-action";
 import useThrottle from "@/bootstrap/helpers/hooks/use-throttle";
 import BaseVM from "@/bootstrap/helpers/vm/base-vm";
 import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
-import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice-param";
-import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-invoice-usecase";
+import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice.param";
+import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-invoice.usecase";
 import { faker } from "@faker-js/faker";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Viewmodel for the button view to connect to business logics and all UI logics
+ * For UI logics, all translations, states, sideeffects and events will be handled
+ *  in this layer.
+ */
 export default class CreateRandomInvoiceButtonVM extends BaseVM<ButtonVm> {
   private createInvoice: typeof createInvoiceUsecase;
 

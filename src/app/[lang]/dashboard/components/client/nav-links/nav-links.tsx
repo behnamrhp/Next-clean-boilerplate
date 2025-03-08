@@ -1,6 +1,6 @@
 "use client";
 
-import navLinkPersonalVM from "@/app/[lang]/dashboard/components/client/nav-links/nav-link-vm";
+import navLinkPersonalVM from "@/app/[lang]/dashboard/components/client/nav-links/nav-link.personal-vm";
 import clsx from "clsx";
 import Link from "next/link";
 

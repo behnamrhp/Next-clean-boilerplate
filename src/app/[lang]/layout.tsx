@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/app/[lang]/dashboard/components/client/theme-provider/theme-provider";
-import { initI18next, LANGS } from "@/bootstrap/i18n/i18n";
+import { getI18n, LANGS } from "@/bootstrap/i18n/i18n";
 import TranslationsProvider from "@/bootstrap/i18n/i18n-provider";
 import localFont from "next/font/local";
 import { PropsWithChildren } from "react";
@@ -20,7 +20,7 @@ export default async function layout(
 ) {
   const { params, children } = props;
   const { lang } = await params;
-  const { resources } = await initI18next({ lng: lang });
+  const { resources } = await getI18n({ lng: lang });
   return (
     <html lang={lang} suppressHydrationWarning>
       <body

@@ -1,4 +1,4 @@
-import revenueChartController from "@/app/[lang]/dashboard/components/server/revenue-chart/revenue-chart-controller";
+import revenueChartController from "@/app/[lang]/dashboard/components/server/revenue-chart/revenue-chart.controller";
 import { CalendarIcon } from "@heroicons/react/24/outline";
 
 export default async function RevenueChart() {

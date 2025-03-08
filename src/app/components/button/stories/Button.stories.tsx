@@ -4,7 +4,7 @@ import { DiContext, useDI } from "@/bootstrap/di/di-context";
 import mockedModuleDi from "@/bootstrap/di/mocked-module-di";
 import Story from "@/bootstrap/helpers/view/storybook-base-template-type";
 import getArgVM from "@/bootstrap/helpers/view/storybook-with-arg-vm";
-import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-invoice-usecase";
+import createInvoiceUsecase from "@/feature/core/invoice/domain/usecase/create-invoice.usecase";
 import type { Meta } from "@storybook/react";
 import { useRef } from "react";
 
