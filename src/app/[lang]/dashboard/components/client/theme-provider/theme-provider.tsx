@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 "use client";
 
 import * as React from "react";
@@ -7,6 +9,5 @@ export function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }

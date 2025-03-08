@@ -1,7 +1,7 @@
 import { sql } from "@/bootstrap/boundaries/db/db";
 import ApiTask from "@/feature/common/data/api-task";
 import { failureOr } from "@/feature/common/failures/failure-helpers";
-import NetworkFailure from "@/feature/common/failures/network-failure";
+import NetworkFailure from "@/feature/common/failures/network.failure";
 import { formatCurrency } from "@/feature/common/feature-helpers";
 import Customer from "@/feature/core/customer/domain/entity/customer";
 import CustomerRepo from "@/feature/core/customer/domain/i-repo/customer-repo";

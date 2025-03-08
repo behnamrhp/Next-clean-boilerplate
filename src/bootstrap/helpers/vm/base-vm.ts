@@ -5,6 +5,12 @@ import { NoOverride } from "@/bootstrap/helpers/type-helper";
 import IBaseVM from "@/bootstrap/helpers/vm/i-base-vm";
 import { useState } from "react";
 
+/**
+ * Base class for all viewmodels. It provides
+ *  - dependency injection: To get closes di which serves from di provider
+ *  - rerender method: to rerender your component manually
+ *  - produce method: to produce your vm dynamically by passing and attaching dependencies to it
+ */
 export default abstract class BaseVM<
   IVM,
   DEP extends object | undefined = undefined,

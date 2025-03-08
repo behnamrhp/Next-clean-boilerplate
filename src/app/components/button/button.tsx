@@ -1,7 +1,7 @@
 "use client";
 
 import BaseView, { BuildProps } from "@/bootstrap/helpers/view/base-view";
-import ButtonVm from "@/app/components/button/button-vm";
+import ButtonVm from "@/app/components/button/button.i-vm";
 import { ReactNode } from "react";
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";

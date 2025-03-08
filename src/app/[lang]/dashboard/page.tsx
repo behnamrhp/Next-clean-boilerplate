@@ -1,13 +1,13 @@
 import {
   LatestInvoicesSkeleton,
   RevenueChartSkeleton,
-} from "@/app/[lang]/dashboard/components/server/skeletons/skeletons";
-import CardWrapper from "@/app/[lang]/dashboard/components/server/cards/cards";
-import LatestInvoices from "@/app/[lang]/dashboard/components/server/latest-invoices/latest-invoices";
-import RevenueChart from "@/app/[lang]/dashboard/components/server/revenue-chart/revenue-chart";
+} from "@/app/[lang]/dashboard/components/server/skeletons";
+import CardWrapper from "@/app/[lang]/dashboard/components/server/cards";
+import RevenueChart from "@/app/[lang]/dashboard/components/server/revenue-chart";
 import { Suspense } from "react";
 import { getServerTranslation, LANGS } from "@/bootstrap/i18n/i18n";
 import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import LatestInvoices from "@/app/[lang]/dashboard/components/server/latest-invoices";
 
 export default async function Dashboard(props: {
   params: Promise<{ lang: LANGS }>;

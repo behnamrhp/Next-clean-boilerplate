@@ -1,5 +1,4 @@
-import "server-only";
-import serverDi from "@/feature/common/server-di";
+import serverDi from "@/feature/common/server.di";
 import { customerKey } from "@/feature/core/customer/customer-key";
 import CustomerRepo, {
   customerRepoKey,
