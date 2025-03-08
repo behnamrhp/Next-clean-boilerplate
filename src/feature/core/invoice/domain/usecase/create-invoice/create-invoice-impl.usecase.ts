@@ -1,5 +1,3 @@
-"use server";
-
 import { ApiEither } from "@/feature/common/data/api-task";
 import ParamsFailure from "@/feature/common/failures/params-failure";
 import serverDi from "@/feature/common/server-di";
@@ -10,13 +8,14 @@ import {
   InvoiceParam,
   invoiceSchema,
 } from "@/feature/core/invoice/domain/param/invoice-param";
+import { CreateInvoiceUsecase } from "@/feature/core/invoice/domain/usecase/create-invoice/create-invoice.usecase";
 import { invoiceModuleKey } from "@/feature/core/invoice/invoice-module-key";
 import { pipe } from "fp-ts/lib/function";
 import { chain, fromNullable, left, map, right } from "fp-ts/lib/TaskEither";
 
-export default async function createInvoiceUsecase(
+const createInvoiceUsecase: CreateInvoiceUsecase = async (
   params: InvoiceParam,
-): Promise<ApiEither<string>> {
+): Promise<ApiEither<string>> => {
   const repo = serverDi(invoiceModuleKey).resolve<InvoiceRepo>(invoiceRepoKey);
 
   return pipe(
@@ -29,4 +28,6 @@ export default async function createInvoiceUsecase(
     }),
     chain((params) => repo.createInvoice(params)),
   )();
-}
+};
+
+export default createInvoiceUsecase;
