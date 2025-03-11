@@ -21,9 +21,7 @@ export default class CreateRandomInvoiceButtonVM extends BaseVM<ButtonVm> {
 
   constructor() {
     super();
-    this.createInvoice = this.di.resolve(
-      createInvoiceController.prototype.name,
-    );
+    this.createInvoice = this.di.resolve(createInvoiceController.name);
   }
 
   useVM(): ButtonVm {
