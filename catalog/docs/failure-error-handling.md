@@ -138,3 +138,78 @@ For each process and scenario we should define specific failure and also at the 
 
 So we can use this idea and automate these process together.
 
+To achieve this requirement we can pass a unique  string key from constructor based on the failure scenario.
+So our base failure will turn like this:
+```ts
+export default abstract class BaseFailure<META_DATA> {
+  private readonly BASE_FAILURE_MESSAGE = "failure";
+
+  /**
+   * Use this message as key lang for failure messages
+   */
+  message = this.BASE_FAILURE_MESSAGE;
+
+  metadata: META_DATA | undefined;
+
+  constructor(key: string, metadata?: META_DATA) {
+    this.message = makeFailureMessage(this.message, key);
+    this.metadata = metadata ?? undefined;
+  }
+}
+
+/**
+ * Gets Message key and it'll add it to the failure message key hierarchy
+ */
+export function makeFailureMessage(message: string, key: string) {
+  if (!key) return message;
+  return `${message}.${key}`;
+}
+
+```
+As you see we have a message property, which has 
+`BASE_FAILURE_MESSAGE` which is the base key for all failure messages. Also it gets key from constructor and with makeFailureMessage function concat the new key with the message and shape new message for each failre.
+
+Also each failure can get their own key from their constructors.
+So at the end of the day we can have a chained message key that we can use it as a message key.
+
+For example for a failure like `UserAlreadyExistsFailure` we can have a parent failure for all user domain failures like this:
+
+```ts
+export default class UserFailure extends BaseFailure {
+  constructor(key: string) {
+    super(makeFailureMessage("user", key));
+  }
+}
+```
+and now we can make our failure:
+```ts
+export default class UserAlreadyExistsFailure extends UserFailure {
+  constructor() {
+    super("alreadyExists");
+  }
+}
+```
+so the result of message for `UserAlreadyExistsFailure`, will be `failure.user.alreadyExists`.
+
+At the same time in other place in our project we're using langkey object to specify translation key and this object, like failure follows domain and folder structure to specify lang key.
+
+```ts
+const langKey = {
+  // ...
+    failure: {
+      user: {
+        alreadyExists: "failure.user.alreadyExists",
+      }
+  }
+}
+```
+So we can use our failure message key to get lang key and by passing it to translation method we can get translated failure message and make a automated process to show error message based on failure that we get.
+
+```ts
+const usecaseResponse = await getUsersUsecase() as Promise<Either<BaseFailure, User[]>>
+
+if (!isLeft(usecaseResponse)) return;
+  if (!(usecaseResponse instanceOf BaseFailure)) return;
+
+const translatedFailureMessage = t(usecaseResponse.left.message)
+```
