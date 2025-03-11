@@ -1,4 +1,13 @@
-export default function Home() {
+import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import { getServerTranslation, LANGS } from "@/bootstrap/i18n/i18n";
+import Link from "next/link";
+
+export default async function Home(props: {
+  params: Promise<{ lang: LANGS }>;
+}) {
+  const { params } = props;
+  const { lang } = await params;
+  const { t } = await getServerTranslation(lang);
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
@@ -8,6 +17,12 @@ export default function Home() {
             <strong>Welcome to Acme.</strong> This is the example for the ,
             brought to you by Vercel.
           </p>
+          <Link
+            className="flex rounded-md bg-primary-foreground p-3 ml-auto mr-auto text-white"
+            href="dashboard"
+          >
+            {t(langKey.global.dashboard)}
+          </Link>
         </div>
       </div>
     </main>
