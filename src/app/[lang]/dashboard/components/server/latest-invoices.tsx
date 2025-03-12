@@ -1,5 +1,6 @@
-import CreateRandomInvoiceContainer from "@/app/[lang]/dashboard/components/client/create-random-invoice/create-random-invoice";
 import latestInvoicesController from "@/app/[lang]/dashboard/controller/latest-invoices.controller";
+import CreateRandomInvoiceButtonVM from "@/app/[lang]/dashboard/vm/create-random-invoice-button-vm";
+import Button from "@/app/components/button/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { isLeft } from "fp-ts/lib/Either";
@@ -39,6 +40,7 @@ export default async function LatestInvoices() {
       </p>
     </div>
   ));
+
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className="mb-4 text-xl md:text-2xl">Latest Invoices</h2>
@@ -48,7 +50,7 @@ export default async function LatestInvoices() {
           <ArrowPathIcon className="h-5 w-5 text-gray-500" />
           <h3 className="ml-2 text-sm text-gray-500 ">Updated just now</h3>
         </div>
-        <CreateRandomInvoiceContainer />
+        <Button vmKey={CreateRandomInvoiceButtonVM} />
       </div>
     </div>
   );

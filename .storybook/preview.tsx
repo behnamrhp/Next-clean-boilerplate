@@ -1,13 +1,14 @@
-import React, { useRef } from "react";
+import React from "react";
 import { themes } from '@storybook/theming';
 import { ThemeProvider } from "../src/app/[lang]/dashboard/components/client/theme-provider/theme-provider";
-import { DARK_MODE_EVENT_NAME, UPDATE_DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
-import { initI18next, LANGS } from "../src/bootstrap/i18n/i18n"
+import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
+import { getI18n, LANGS } from "../src/bootstrap/i18n/i18n"
 import { addons } from '@storybook/preview-api';
 import { i18n } from "i18next";
 import { I18nextProvider } from "react-i18next";
 const channel = addons.getChannel();
 import "../src/app/globals.css"
+
 /**
  *
  * This function will expand the object with nested properties
@@ -69,7 +70,7 @@ const preview = {
 
       React.useEffect(() => {
         (async () => {
-          setI18n((await initI18next({ lng: locale })).i18n);
+          setI18n((await getI18n({ lng: locale })).i18n);
         })()
       }, [])
 
