@@ -213,3 +213,5 @@ if (!isLeft(usecaseResponse)) return;
 
 const translatedFailureMessage = t(usecaseResponse.left.message)
 ```
+This is the final version, class diagram for our failur architecture:
+![Failure class diagram](./failure-class-diagram.svg)

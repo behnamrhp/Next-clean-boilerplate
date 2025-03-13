@@ -1,0 +1,53 @@
+@startuml Failure Class Diagram
+abstract BaseFailure {
+ - String BASE_FAILURE_MESSAGE = "failure"
+ + String message = this.BASE_FAILURE_MESSAGE
+ 
+ constructor(key: string)
+}
+
+class UserFailure {
+	constructor(key: string)
+}
+
+note left 
+	Extends parent message key by sending 
+  `user` keyword as a domain to parent.
+  So in `UserFailure` our `message` 
+  	property will be `failure.user`.
+end note
+
+UserFailure --|> BaseFailure
+
+ 
+class UserModificationFailure {
+	constructor(key: string)
+}
+note right 
+	Extends parent message key by sending 
+  `modification` keyword to parent.
+  So in `UserModificationFailure` our `message` 
+  	property will be `failure.user.modification`
+end note
+UserModificationFailure --|> UserFailure
+
+class UserModificationAlreadyExistsFailure {
+	constructor()
+}
+note left 
+	Extends parent message key by sending 
+  `alreadyExists` keyword to parent.
+  So in `UserModificationAlreadyExistsFailure`
+  	our `message` 	property will be 
+    `failure.user.modification.AlreadyExists`
+end note
+
+class DeviceFailure {
+	constructor()
+}
+
+DeviceFailure --|> BaseFailure
+UserModificationAlreadyExistsFailure --|> UserModificationFailure
+
+
+@enduml
