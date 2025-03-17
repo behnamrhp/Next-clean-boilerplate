@@ -11,7 +11,7 @@ import {
  * Or connect multiple usecases and run them, handle their failure, hydrate and store data in
  *  client state managements.
  */
-export default function cardController(props: {
+export default function getCardIcon(props: {
   type: "invoices" | "customers" | "pending" | "collected";
 }) {
   const { type } = props;

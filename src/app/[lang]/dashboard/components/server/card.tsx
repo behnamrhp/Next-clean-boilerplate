@@ -1,4 +1,4 @@
-import cardController from "@/app/[lang]/dashboard/controller/card.controller";
+import getCardIcon from "@/app/[lang]/dashboard/components/server/card-icon";
 
 export function Card({
   title,
@@ -9,7 +9,7 @@ export function Card({
   value: number | string;
   type: "invoices" | "customers" | "pending" | "collected";
 }) {
-  const { Icon } = cardController({ type });
+  const { Icon } = getCardIcon({ type });
 
   return (
     <div className="rounded-xl bg-gray-50 p-2 shadow-sm">

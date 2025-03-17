@@ -7,7 +7,7 @@ import { connection } from "next/server";
  * Or connect multiple usecases and run them, handle their failure, hydrate and store data in
  *  client state managements.
  */
-export default function cardsController() {
+export default function fetchSummaryInfoController() {
   connection();
   return fetchSummaryInfoUsecase();
 }
