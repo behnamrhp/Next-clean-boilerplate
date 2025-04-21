@@ -16,6 +16,14 @@ export const getI18n = async (params: {
   ns?: string;
 }) => {
   const { lng, ns, resources } = params;
+  if (i18nInstance.isInitialized) {
+    await i18nInstance.changeLanguage(lng);
+    return {
+      i18n: i18nInstance,
+      resources: i18nInstance.services.resourceStore.data,
+      t: i18nInstance.t,
+    };
+  }
   await i18nInstance
     .use(initReactI18next)
     .use(
