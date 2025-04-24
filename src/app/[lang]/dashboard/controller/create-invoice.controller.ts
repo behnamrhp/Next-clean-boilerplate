@@ -19,7 +19,7 @@ import { connection } from "next/server";
 export default async function createInvoiceController(
   params: InvoiceParam,
 ): Promise<ApiEither<string>> {
-  connection();
+  await connection();
   const usecase = serverDi(invoiceModuleKey).resolve<CreateInvoiceUsecase>(
     createInvoiceUsecaseKey,
   );

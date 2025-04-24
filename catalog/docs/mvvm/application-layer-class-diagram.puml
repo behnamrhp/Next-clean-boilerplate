@@ -1,0 +1,47 @@
+@startuml Application layer class diagram
+package SomeDomain {
+  class View {}
+  note top
+    Responsible for UI
+  end note
+
+  class IVM {}
+  note bottom 
+    Covention between UI and UI logics
+  end note
+  View ..> IVM: has
+
+  class VM {
+    IVM useVM()
+  }
+  note top
+    Handles UI logic based on IVM interface
+  end note
+
+  VM --> IVM: is
+
+  class BaseVM {}
+  note bottom
+    Common methods and tools for ui logics to use in VMs
+  end note
+  VM ..|> BaseVM
+
+  class Controller {}
+  note bottom   
+    Handles Data logics and connect to business logics
+  end note
+
+  VM o..> Controller: has
+
+	class Store {}
+  Controller o..> Store
+  VM o..> Store
+  class SomeHigherLevelView {}
+  note top
+    This is a higher level component which needs to use that view so
+      it connects View to VM
+  end note
+  SomeHigherLevelView --> VM: has
+  SomeHigherLevelView --> View: has
+}
+@enduml
