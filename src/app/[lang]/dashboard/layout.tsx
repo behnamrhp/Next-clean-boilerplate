@@ -2,13 +2,13 @@
 
 import SideNav from "@/app/[lang]/dashboard/components/server/sidenav";
 import dashboardAppModule from "@/app/[lang]/dashboard/module/dashboard.app-module";
-import { DiContext } from "@/bootstrap/di/di-context";
 import { useRef } from "react";
+import { ReactVVMDiProvider } from "reactvvm";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const di = useRef(dashboardAppModule());
   return (
-    <DiContext.Provider value={di.current}>
+    <ReactVVMDiProvider diContainer={di.current}>
       <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
         <div className="w-full flex-none md:w-64">
           <SideNav />
@@ -17,6 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {children}
         </div>
       </div>
-    </DiContext.Provider>
+    </ReactVVMDiProvider>
   );
 }

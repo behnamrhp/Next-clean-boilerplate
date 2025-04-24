@@ -15,7 +15,7 @@ type LinkItem = {
  *  so they come together always and there is no need to be connected with interface for reusable
  *  vms.
  */
-export default function navLinkPersonalVM() {
+export default function useNavLinkPersonalVM() {
   const pathname = usePathname();
   // Map of links to display in the side navigation.
   // Depending on the size of the application, this would be stored in a database.
