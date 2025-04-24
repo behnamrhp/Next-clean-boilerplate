@@ -10,7 +10,7 @@ import { useState, useEffect, useTransition, useRef } from "react";
 export const useServerAction = <P extends any[], R>(
   action: (...args: P) => Promise<R>,
   onFinished?: (_: R | undefined) => void,
-): [(...args: P) => Promise<R | undefined>, boolean] => {
+): [(...args: P) => Promise<R | undefined>, boolean, R | undefined] => {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<R>();
   const [finished, setFinished] = useState(false);
@@ -36,5 +36,5 @@ export const useServerAction = <P extends any[], R>(
     });
   };
 
-  return [runAction, isPending];
+  return [runAction, isPending, result];
 };
