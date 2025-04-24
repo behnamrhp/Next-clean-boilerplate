@@ -1,4 +1,4 @@
-import IBaseVM from "@/bootstrap/helpers/vm/i-base-vm";
+import { IBaseVM } from "reactvvm";
 
 /**
  * To use with mvvm library to make a vm based on props so you can pass the result to the view

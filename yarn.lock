@@ -6493,6 +6493,11 @@ react@19.0.0-rc-69d4b800-20241021:
   dependencies:
     loose-envify "^1.1.0"
 
+reactvvm@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/reactvvm/-/reactvvm-1.1.0.tgz#2cdb7ebb75ec0fed4121960077c13474536d18e1"
+  integrity sha512-HBb/9SN5gAFhYGaQ5qzxmT+YZ0ML+7hfFfAH0milq8T+hJWY9seUsHUUvYxROuxg1fY+WIR04ENGB1H4HhAYJg==
+
 read-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"

@@ -4,12 +4,12 @@ import createInvoiceController from "@/app/[lang]/dashboard/controller/create-in
 import ButtonVm from "@/app/components/button/button.i-vm";
 import { useServerAction } from "@/bootstrap/helpers/hooks/use-server-action";
 import useThrottle from "@/bootstrap/helpers/hooks/use-throttle";
-import BaseVM from "@/bootstrap/helpers/vm/base-vm";
 import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
 import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice.param";
 import { faker } from "@faker-js/faker";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { BaseVM } from "reactvvm";
 
 /**
  * Viewmodel for the button view to connect to business logics and all UI logics

@@ -1,11 +1,11 @@
 "use client";
 
-import navLinkPersonalVM from "@/app/[lang]/dashboard/components/client/nav-links/nav-link.personal-vm";
+import useNavLinkPersonalVM from "@/app/[lang]/dashboard/components/client/nav-links/nav-link.personal-vm";
 import clsx from "clsx";
 import Link from "next/link";
 
 export default function NavLinks() {
-  const { links, isLinkActive } = navLinkPersonalVM();
+  const { links, isLinkActive } = useNavLinkPersonalVM();
   return (
     <>
       {links.map((link) => {

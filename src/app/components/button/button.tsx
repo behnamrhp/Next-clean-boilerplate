@@ -1,12 +1,12 @@
 "use client";
 
-import BaseView, { BuildProps } from "@/bootstrap/helpers/view/base-view";
 import ButtonVm from "@/app/components/button/button.i-vm";
 import { ReactNode } from "react";
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/bootstrap/helpers/lib/ui-utils";
+import { BaseView, BuildProps } from "reactvvm";
 
 export default class Button extends BaseView<ButtonVm> {
   protected Build(props: BuildProps<ButtonVm>): ReactNode {
