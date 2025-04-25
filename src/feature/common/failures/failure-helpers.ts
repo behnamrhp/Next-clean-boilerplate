@@ -36,6 +36,15 @@ export function failureOr(
   return failure;
 }
 
+export function failureOrCurry(failure: BaseFailure<any>) {
+  return (reason: unknown): BaseFailure<any> => {
+    if (reason instanceof BaseFailure) {
+      return reason;
+    }
+    return failure;
+  };
+}
+
 /**
  * Returns a function that maps a BaseFailure<any> instance to a new BaseFailure<any> instance of type IfType using the provided mapping function.
  * @param f A function that maps an instance of IfType to a new instance of BaseFailure<any>.

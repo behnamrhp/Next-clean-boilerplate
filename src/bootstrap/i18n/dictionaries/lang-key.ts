@@ -8,6 +8,8 @@ const langKey = {
     home: "global.home",
     dashboard: "global.dashboard",
     loading: "global.loading",
+    required: "global.required",
+    passwordMinLength: "global.passwordMinLength",
   },
   dashboard: {
     invoice: {
