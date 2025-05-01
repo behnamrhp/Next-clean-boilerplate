@@ -28,5 +28,13 @@ export default abstract class BaseFailure<META_DATA> {
     this.message = makeFailureMessage(this.message, key);
     this.metadata = metadata ?? undefined;
   }
+
+  /* -------------------------------------------------------------------------- */
+  toPlainObject(): BaseFailure<META_DATA> {
+    return {
+      message: this.message,
+      metadata: this.metadata,
+    } as BaseFailure<META_DATA>;
+  }
   /* -------------------------------------------------------------------------- */
 }

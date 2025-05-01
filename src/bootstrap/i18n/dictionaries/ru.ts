@@ -5,6 +5,8 @@ const ru: typeof langKey = {
     home: "Дом",
     loading: "Загрузка",
     dashboard: "Панель приборов",
+    required: "{{field}} требуется",
+    passwordMinLength: "Длина пароля должна быть не менее 8 символов!",
   },
   dashboard: {
     invoice: {
