@@ -113,7 +113,7 @@ export default class EndpointsProvider {
 > Note: The EndpointProvider step is optional. Instead, you can statically define all required endpoint configurations directly in the endpoint class's constructor.
 
 ## Usage Example
-You can see implementation examples in this Next.js boilerplate:
+You can see implementation examples these addresses:
 
 ### Endpoint Files
 - [Endpoint implementations](https://github.com/behnamrhp/Next-clean-boilerplate/tree/develop/src/bootstrap/endpoint/endpoints)  
