@@ -1,0 +1,1 @@
+# Clean architecture in Next.js

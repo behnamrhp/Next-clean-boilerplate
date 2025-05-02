@@ -13,6 +13,8 @@ import getRevenueDi from "@/feature/core/revenue/data/module/revenue.di";
 import authModule from "@/feature/generic/auth/data/module/auth.module";
 import { authModuleKey } from "@/feature/generic/auth/auth-module-key";
 import di from "@/bootstrap/di/init-di";
+import { userModuleKey } from "@/feature/core/user/data/user-module-key";
+import userModule from "@/feature/core/user/data/module/user-module";
 
 /**
  * On adding new domain module, just add it to this list
@@ -27,6 +29,7 @@ const moduleKeyToDi: Record<
   [invoiceModuleKey]: getInvoiceDi,
   [summaryInfoModuleKey]: getSummaryInfoDi,
   [revenueModuleKey]: getRevenueDi,
+  [userModuleKey]: userModule,
 };
 
 const memoizedDis: Record<string, DependencyContainer> = {};
