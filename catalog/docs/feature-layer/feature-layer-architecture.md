@@ -21,7 +21,6 @@
 
 ## Architecture overview of the feature layer
 This layer handles the business logic of each feature. For each feature this layer is divided into two parts, `data` and `domain`. where the data is divided into:
-1. datasource
 2. dto
 3. repository
 
