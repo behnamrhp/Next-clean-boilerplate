@@ -1,7 +1,7 @@
 "use server";
 
 import { ApiEither } from "@/feature/common/data/api-task";
-import serverDi from "@/feature/common/server.di";
+import { diResolve } from "@/feature/common/features.di";
 import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice.param";
 import {
   CreateInvoiceUsecase,
@@ -20,7 +20,8 @@ export default async function createInvoiceController(
   params: InvoiceParam,
 ): Promise<ApiEither<string>> {
   await connection();
-  const usecase = serverDi(invoiceModuleKey).resolve<CreateInvoiceUsecase>(
+  const usecase = diResolve<CreateInvoiceUsecase>(
+    invoiceModuleKey,
     createInvoiceUsecaseKey,
   );
   return usecase(params);

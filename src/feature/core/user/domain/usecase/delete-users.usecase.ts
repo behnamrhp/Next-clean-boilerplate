@@ -1,5 +1,5 @@
 import { ApiEither } from "@/feature/common/data/api-task";
-import serverDi from "@/feature/common/server.di";
+import { diResolve } from "@/feature/common/features.di";
 import { userModuleKey } from "@/feature/core/user/data/user-module-key";
 import UserRepository, {
   userRepoKey,
@@ -8,6 +8,6 @@ import UserRepository, {
 export default async function deleteUsersUseCase(
   ids: string[],
 ): Promise<ApiEither<true>> {
-  const repo = serverDi(userModuleKey).resolve<UserRepository>(userRepoKey);
+  const repo = diResolve<UserRepository>(userModuleKey, userRepoKey);
   return repo.delete(ids)();
 }

@@ -1,5 +1,5 @@
 import { ApiEither } from "@/feature/common/data/api-task";
-import serverDi from "@/feature/common/server.di";
+import { diResolve } from "@/feature/common/features.di";
 import CustomerInvoice from "@/feature/core/customer-invoice/domain/entity/customer-invoice.entity";
 import CustomerInvoiceRepo, {
   customerInvoiceRepoKey,
@@ -9,7 +9,8 @@ import { customerInvoiceModuleKey } from "@/feature/core/customer-invoice/invoic
 export default function fetchCustomerInvoicesUsecase(): Promise<
   ApiEither<CustomerInvoice[]>
 > {
-  const repo = serverDi(customerInvoiceModuleKey).resolve<CustomerInvoiceRepo>(
+  const repo = diResolve<CustomerInvoiceRepo>(
+    customerInvoiceModuleKey,
     customerInvoiceRepoKey,
   );
   return repo.fetchList()();

@@ -15,9 +15,9 @@ import AuthCachedTokenFailure from "@/feature/generic/auth/domain/failure/auth-c
 import AuthCachedProfileFailure from "@/feature/generic/auth/domain/failure/auth-cached-profile-failure";
 import { ApiRole } from "@/feature/core/user/data/repository/user.repository";
 import UserMapper from "@/feature/core/user/data/repository/user.mapper";
-import serverDi from "@/feature/common/server.di";
 import { authModuleKey } from "@/feature/generic/auth/auth-module-key";
 import IdpEndpoint from "@/bootstrap/endpoint/endpoints/idp-endpoints";
+import { diResolve } from "@/feature/common/features.di";
 
 type IdpTokenResponse = {
   access_token: string;
@@ -39,7 +39,7 @@ export default class AuthIDPRepo implements AuthRepo {
   private endpoint;
 
   constructor() {
-    this.endpoint = serverDi(authModuleKey).resolve(IdpEndpoint);
+    this.endpoint = diResolve<IdpEndpoint>(authModuleKey, IdpEndpoint);
   }
 
   logout(): ApiTask<true> {
@@ -132,8 +132,7 @@ export default class AuthIDPRepo implements AuthRepo {
 
   private fetchProfileHandler(authToken: AuthToken) {
     return async () => {
-      const idpEndpoint = serverDi(authModuleKey).resolve(IdpEndpoint);
-      const response = await fetch(idpEndpoint.profile, {
+      const response = await fetch(this.endpoint.profile, {
         headers: {
           Authorization: `${authToken.tokenType} ${authToken.accessToken}`,
         },

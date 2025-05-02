@@ -1,7 +1,7 @@
 import ApiTask from "@/feature/common/data/api-task";
 import { failureOrCurry } from "@/feature/common/failures/failure-helpers";
 import NetworkFailure from "@/feature/common/failures/network.failure";
-import serverDi from "@/feature/common/server.di";
+import { diResolve } from "@/feature/common/features.di";
 import { authModuleKey } from "@/feature/generic/auth/auth-module-key";
 import AuthRepo, {
   authRepoKey,
@@ -26,7 +26,7 @@ export default class FetchHandler {
   private authRepo: AuthRepo;
 
   constructor() {
-    this.authRepo = serverDi(authModuleKey).resolve(authRepoKey);
+    this.authRepo = diResolve(authModuleKey, authRepoKey);
   }
 
   fetchWithAuth<
