@@ -1,19 +1,17 @@
 import fetchCustomersAmountUsecase from "@/feature/core/customer/domain/usecase/fetch-customers-amount-usecase";
 import fetchAllInvoicesAmountUsecase from "@/feature/core/invoice/domain/usecase/fetch-all-invoices-amount.usecase";
 import fetchInvoicesStatusSummary from "@/feature/core/invoice/domain/usecase/fetch-invoices-status-summary.usecase";
-import di from "@/bootstrap/di/init-di";
+import { DependencyContainer } from "tsyringe";
 
-export default function getSummaryInfoDi() {
-  const summaryInfoDi = di.createChildContainer();
-
-  summaryInfoDi.register(fetchAllInvoicesAmountUsecase.name, {
+export default function getSummaryInfoDi(di: DependencyContainer) {
+  di.register(fetchAllInvoicesAmountUsecase.name, {
     useValue: fetchAllInvoicesAmountUsecase,
   });
-  summaryInfoDi.register(fetchCustomersAmountUsecase.name, {
+  di.register(fetchCustomersAmountUsecase.name, {
     useValue: fetchCustomersAmountUsecase,
   });
-  summaryInfoDi.register(fetchInvoicesStatusSummary.name, {
+  di.register(fetchInvoicesStatusSummary.name, {
     useValue: fetchInvoicesStatusSummary,
   });
-  return summaryInfoDi;
+  return di;
 }

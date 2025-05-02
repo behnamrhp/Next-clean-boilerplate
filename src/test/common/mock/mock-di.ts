@@ -1,5 +1,5 @@
 import di from "@/bootstrap/di/init-di";
-import * as serverDi from "@/feature/common/server.di";
+import * as serverDi from "@/feature/common/features.di";
 
 /**
  * To mock and get server di

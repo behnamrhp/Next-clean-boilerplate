@@ -5,7 +5,7 @@ import FetchHandler, {
   FetchOptions,
 } from "@/feature/common/data/fetch-handler";
 import WithPaginationResponse from "@/feature/common/data/with-pagination-response";
-import serverDi from "@/feature/common/server.di";
+import serverDi from "@/feature/common/features.di";
 import UserMapper from "@/feature/core/user/data/repository/user.mapper";
 import { userModuleKey } from "@/feature/core/user/data/user-module-key";
 import User from "@/feature/core/user/domain/entity/user.entity";

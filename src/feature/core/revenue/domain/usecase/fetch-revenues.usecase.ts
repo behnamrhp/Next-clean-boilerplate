@@ -1,4 +1,4 @@
-import serverDi from "@/feature/common/server.di";
+import { diResolve } from "@/feature/common/features.di";
 import Revenue from "@/feature/core/revenue/domain/entity/revenue.entity";
 import RevenueRepo, {
   revenueRepoKey,
@@ -6,6 +6,6 @@ import RevenueRepo, {
 import { revenueModuleKey } from "@/feature/core/revenue/domain/revenue.module-key";
 
 export default function fetchRevenuesUsecase(): Promise<Revenue[]> {
-  const repo = serverDi(revenueModuleKey).resolve<RevenueRepo>(revenueRepoKey);
+  const repo = diResolve<RevenueRepo>(revenueModuleKey, revenueRepoKey);
   return repo.fetchRevenues();
 }
