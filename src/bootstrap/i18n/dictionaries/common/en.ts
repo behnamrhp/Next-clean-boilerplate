@@ -1,6 +1,6 @@
-import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import commonLangKey from "@/feature/common/lang-keys/common.lang-key";
 
-const en: typeof langKey = {
+const en: typeof commonLangKey = {
   global: {
     home: "Home",
     loading: "Loading",
@@ -12,6 +12,10 @@ const en: typeof langKey = {
     invoice: {
       createButton: "Create random Invoice",
     },
+  },
+  failure: {
+    network: "Something went wrong please try again layer!",
+    param: "Please provide correct information",
   },
 };
 

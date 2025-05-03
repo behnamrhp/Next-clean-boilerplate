@@ -98,11 +98,3 @@ export function mapIfNotInstance<IfType, Response>(
     return t;
   };
 }
-
-/**
- * Gets Message key and it'll add it to the failure message key hierarchy
- */
-export function makeFailureMessage(message: string, key: string) {
-  if (!key) return message;
-  return `${message}.${key}`;
-}

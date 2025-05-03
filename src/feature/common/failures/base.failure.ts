@@ -1,4 +1,5 @@
-import { makeFailureMessage } from "@/feature/common/failures/failure-helpers";
+/* eslint-disable no-console */
+import { isServer } from "@/bootstrap/helpers/global-helpers";
 
 /**
  * This class can be used as a base class for creating custom failure classes.
@@ -11,22 +12,24 @@ import { makeFailureMessage } from "@/feature/common/failures/failure-helpers";
  * Also you can use this failure message to have grained control over failures.
  */
 export default abstract class BaseFailure<META_DATA> {
-  /* ------------------------------- Attributes ------------------------------- */
-  private readonly BASE_FAILURE_MESSAGE = "failure";
+  /* -------------------------------- Abstracts ------------------------------- */
+  namespace: string;
 
   /* -------------------------------------------------------------------------- */
   /**
    * Use this message as key lang for failure messages
    */
-  message = this.BASE_FAILURE_MESSAGE;
+  message: string;
 
   /* -------------------------------------------------------------------------- */
   metadata: META_DATA | undefined;
 
   /* -------------------------------------------------------------------------- */
-  constructor(key: string, metadata?: META_DATA) {
-    this.message = makeFailureMessage(this.message, key);
+  constructor(message: string, namespace: string, metadata?: META_DATA) {
+    this.message = message;
     this.metadata = metadata ?? undefined;
+    this.namespace = namespace;
+    this.logHandler();
   }
 
   /* -------------------------------------------------------------------------- */
@@ -35,6 +38,15 @@ export default abstract class BaseFailure<META_DATA> {
       message: this.message,
       metadata: this.metadata,
     } as BaseFailure<META_DATA>;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  private logHandler() {
+    if (isServer) {
+      console.log(
+        `Error happened in ${this.namespace} namespace, langKey is: ${this.message}, metadata: ${JSON.stringify(this.metadata)}`,
+      );
+    }
   }
   /* -------------------------------------------------------------------------- */
 }

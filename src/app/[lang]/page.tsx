@@ -1,4 +1,4 @@
-import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import langKey from "@/feature/common/lang-keys/common.lang-key";
 import { getServerTranslation, LANGS } from "@/bootstrap/i18n/i18n";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ export default async function Home(props: {
             brought to you by Vercel.
           </p>
           <Link
-            className="flex rounded-md bg-primary-foreground p-3 ml-auto mr-auto text-white"
+            className="flex rounded-md border-2 bg-primary-foreground p-3 ml-auto mr-auto "
             href="dashboard"
           >
             {t(langKey.global.dashboard)}

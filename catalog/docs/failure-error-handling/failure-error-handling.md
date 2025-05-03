@@ -158,55 +158,31 @@ For each process and scenario, we should define a specific failure. At the same 
 
 We can use this idea to automate both the error handling and message translation process.
 
-To achieve this, we can pass a unique string key from the constructor based on the failure scenario. Our base failure will look like this:
+To achieve this, we can pass message and namespace to constructor. Our base failure will look like this:
 ```ts
 export default abstract class BaseFailure<META_DATA> {
-  private readonly BASE_FAILURE_MESSAGE = "failure";
-
   /**
    * Use this message as key lang for failure messages
    */
-  message = this.BASE_FAILURE_MESSAGE;
+  message: string;
+
+  namespace: string;
 
   metadata: META_DATA | undefined;
 
-  constructor(key: string, metadata?: META_DATA) {
-    this.message = makeFailureMessage(this.message, key);
+  constructor(message: string, namespace: string metadata?: META_DATA) {
+    this.message = message;
+    this.namespace = namespace
     this.metadata = metadata ?? undefined;
   }
 }
-
-/**
- * Gets Message key and it'll add it to the failure message key hierarchy
- */
-export function makeFailureMessage(message: string, key: string) {
-  if (!key) return message;
-  return `${message}.${key}`;
-}
-
 ```
-As you can see, we have a message property, which contains `BASE_FAILURE_MESSAGE`, the base key for all failure messages. It also accepts a key from the constructor, and with the makeFailureMessage function, it concatenates the new key with the message, shaping a unique message for each failure.
-
-Each failure can have its own key passed from its constructor.
-
-In the end, we can have a chained message key that we can use as the message key for each failure.
-
-For example, for a failure like `UserAlreadyExistsFailure`, we can have a parent failure for all user domain failures, like this:
-
-
-
 ```ts
-export default class UserFailure extends BaseFailure {
-  constructor(key: string) {
-    super(makeFailureMessage("user", key));
-  }
-}
-```
-and now we can define our failure:
-```ts
-export default class UserAlreadyExistsFailure extends UserFailure {
+export default class UserUsernameExistsFailure<
+  META_DATA = undefined,
+> extends BaseFailure<META_DATA> {
   constructor() {
-    super("alreadyExists");
+    super(userLangKey.failure.usernameExists, userLangNs);
   }
 }
 ```
@@ -215,12 +191,10 @@ so the result of message for `UserAlreadyExistsFailure`, will be `failure.user.a
 At the same time, in another part of our project, we're using a langKey object to specify the translation key. This object, like the failure structure, follows the domain and folder structure to specify the language key.
 
 ```ts
-const langKey = {
+const userLangKey = {
   // ...
     failure: {
-      user: {
-        alreadyExists: "failure.user.alreadyExists",
-      }
+        usernameExists: "failure.user.usernameExists",
   }
 }
 ```
@@ -235,7 +209,7 @@ if (!isLeft(usecaseResponse)) return;
 const translatedFailureMessage = t(usecaseResponse.left.message)
 ```
 This is the final version, class diagram for our failur architecture:
-![Failure class diagram](./failure-class-diagram.svg)
+![Failure class diagram](https://www.plantuml.com/plantuml/dpng/ZP11JiD034NNyIcy1D7U05KD8kowegoHcJ5XfEbCP3jIKU7kc0YYHh3ezjl_wUblrKXiF6IW5pMXO7X7oW-KyYXyk-lsxVDzksytU0AymKUJL7eyi2hrV9OKycoWC6Lpon-D8Xa1XbgSFmQhShMahFumLlyGy1e-0H129bLyKfPTZUar1R9KIvk5ARvtnwIcF_9uyaQfnYYfVpE4fZiQbwWua70nf19nSDh2PPQOphD_qrZzxKqAm7x-fiD5Bklrn-PyMTXwtsV_0W00)
 
 ## Conclusion
 In this article, we've explored how to handle failures effectively in software applications by combining error handling with functional programming concepts like the Either type. 
