@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, review_requested, edited, synchronize]
+    branches: 
+      - "**"
+
+jobs:
+  development-ci:
+    name: development-ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          
+      - name: install dependencies
+        run: yarn
+          
+      - name: linting
+        run: yarn lint
+
+      - name: build
+        run: yarn build
