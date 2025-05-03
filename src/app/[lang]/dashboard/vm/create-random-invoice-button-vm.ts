@@ -4,7 +4,7 @@ import createInvoiceController from "@/app/[lang]/dashboard/controller/create-in
 import ButtonVm from "@/app/components/button/button.i-vm";
 import { useServerAction } from "@/bootstrap/helpers/hooks/use-server-action";
 import useThrottle from "@/bootstrap/helpers/hooks/use-throttle";
-import langKey from "@/feature/common/lang-keys/common-lang-key";
+import langKey from "@/feature/common/lang-keys/common.lang-key";
 import { InvoiceParam } from "@/feature/core/invoice/domain/param/invoice.param";
 import { faker } from "@faker-js/faker";
 import { useRouter } from "next/navigation";

@@ -1,4 +1,4 @@
-import langKey from "@/feature/common/lang-keys/common-lang-key";
+import langKey from "@/feature/common/lang-keys/common.lang-key";
 import baseUserParamsSchema from "@/feature/core/user/domain/params/base-user-param-schema";
 import { z } from "zod";
 

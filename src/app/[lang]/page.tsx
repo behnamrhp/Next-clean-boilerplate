@@ -1,4 +1,4 @@
-import langKey from "@/feature/common/lang-keys/common-lang-key";
+import langKey from "@/feature/common/lang-keys/common.lang-key";
 import { getServerTranslation, LANGS } from "@/bootstrap/i18n/i18n";
 import Link from "next/link";
 

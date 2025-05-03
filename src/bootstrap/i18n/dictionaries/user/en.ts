@@ -1,4 +1,4 @@
-import userLangKey from "@/feature/common/lang-keys/user-lang-key";
+import userLangKey from "@/feature/common/lang-keys/user.lang-key";
 
 const userEn: typeof userLangKey = {
   deleteUser: "Delete user {{name}}",

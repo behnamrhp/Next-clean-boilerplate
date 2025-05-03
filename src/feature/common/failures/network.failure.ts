@@ -1,6 +1,6 @@
 import commonLangKey, {
   commonLangNs,
-} from "@/feature/common/lang-keys/common-lang-key";
+} from "@/feature/common/lang-keys/common.lang-key";
 import BaseFailure from "./base.failure";
 
 /**

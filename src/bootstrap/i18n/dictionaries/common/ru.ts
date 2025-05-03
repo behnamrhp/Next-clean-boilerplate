@@ -1,4 +1,4 @@
-import commonLangKey from "@/feature/common/lang-keys/common-lang-key";
+import commonLangKey from "@/feature/common/lang-keys/common.lang-key";
 
 const ru: typeof commonLangKey = {
   global: {
