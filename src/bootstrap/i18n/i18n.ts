@@ -1,3 +1,5 @@
+import { commonLangNs } from "@/feature/common/lang-keys/common-lang-key";
+import { userLangNs } from "@/feature/common/lang-keys/user-lang-key";
 import { getOptions, languages } from "@/bootstrap/i18n/settings";
 import { createInstance, Resource } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
@@ -10,6 +12,8 @@ export enum LANGS {
   RU = "ru",
 }
 
+const nameSpaces = [commonLangNs, userLangNs];
+
 export const getI18n = async (params: {
   lng: LANGS;
   resources?: Resource;
@@ -21,6 +25,8 @@ export const getI18n = async (params: {
     return {
       i18n: i18nInstance,
       resources: i18nInstance.services.resourceStore.data,
+      ns: nameSpaces,
+      defaultNs: commonLangNs,
       t: i18nInstance.t,
     };
   }
@@ -28,12 +34,15 @@ export const getI18n = async (params: {
     .use(initReactI18next)
     .use(
       resourcesToBackend(
-        (language: LANGS) => import(`./dictionaries/${language}.ts`),
+        (language: LANGS, namespace: string) =>
+          import(`./dictionaries/${namespace}/${language}.ts`),
       ),
     )
     .init({
       ...getOptions(lng, ns),
       resources,
+      ns: nameSpaces,
+      defaultNS: commonLangNs,
       preload: resources ? [] : languages,
     });
 
@@ -52,6 +61,7 @@ export async function getServerTranslation(
   options: { keyPrefix?: string } = {},
 ) {
   const { i18n } = await getI18n({ lng });
+  // console.log(i18n);
   return {
     t: i18n.getFixedT(lng, Array.isArray(ns) ? ns[0] : ns, options?.keyPrefix),
     i18n: i18nInstance,

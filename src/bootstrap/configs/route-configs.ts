@@ -1,5 +1,5 @@
 import HomeIcon from "@/app/components/icons/home";
-import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import langKey from "@/feature/common/lang-keys/common-lang-key";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 
 type RouteItem = {

@@ -1,6 +1,6 @@
-import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import commonLangKey from "@/feature/common/lang-keys/common-lang-key";
 
-const ru: typeof langKey = {
+const ru: typeof commonLangKey = {
   global: {
     home: "Дом",
     loading: "Загрузка",
@@ -12,6 +12,10 @@ const ru: typeof langKey = {
     invoice: {
       createButton: "Создать случайный счет-фактуру",
     },
+  },
+  failure: {
+    network: "Пожалуйста, предоставьте правильную информацию.",
+    param: "Пожалуйста, предоставьте правильную информацию.",
   },
 };
 

@@ -1,3 +1,6 @@
+import commonLangKey, {
+  commonLangNs,
+} from "@/feature/common/lang-keys/common-lang-key";
 import BaseFailure from "./base.failure";
 
 /**
@@ -6,7 +9,7 @@ import BaseFailure from "./base.failure";
 export default class NetworkFailure<META_DATA> extends BaseFailure<META_DATA> {
   /* ------------------------------- Constructor ------------------------------ */
   constructor(metaData?: META_DATA) {
-    super("network", metaData);
+    super(commonLangKey.failure.network, commonLangNs, metaData);
   }
   /* -------------------------------------------------------------------------- */
 }

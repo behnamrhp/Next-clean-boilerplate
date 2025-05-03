@@ -1,4 +1,4 @@
-import langKey from "@/bootstrap/i18n/dictionaries/lang-key";
+import langKey from "@/feature/common/lang-keys/common-lang-key";
 import Role from "@/feature/core/user/domain/entity/enum/role.enum";
 import { z } from "zod";
 
