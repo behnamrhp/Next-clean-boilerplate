@@ -6,21 +6,22 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: example
-      POSTGRES_USER: admin
-      POSTGRES_DB: nextbp 
+    env_file: .env
 
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
   app:
     build: .
     ports:
       - 3000:3000
     environment:
       POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: admin
-      POSTGRES_PASS: example
-      POSTGRES_DB: nextbp
+    env_file: .env
 volumes:
   postgres_data:
     

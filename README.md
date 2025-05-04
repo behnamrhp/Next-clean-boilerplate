@@ -2,31 +2,126 @@
 
 ## Table of content
 
-- Overview
-- Technologies
-- Architecture
-- Folder Structure 
-- Getting started
-- Guildline
+- [Nextjs clean architecture boilerplate](#nextjs-clean-architecture-boilerplate)
+  - [Table of content](#table-of-content)
+  - [Overview](#overview)
+  - [Motivation](#motivation)
+  - [Technologies](#technologies)
+  - [Architecture](#architecture)
+    - [Folder structure](#folder-structure)
+  - [Requirements](#requirements)
+  - [Getting Started](#getting-started)
+    - [Local](#local)
+    - [Docker](#docker)
+  - [naming convetions:](#naming-convetions)
 
 ## Overview
-This project is a starting point for your medium to large scale projects with Nextjs, to make sure having a structured, maintainable and reusable base for your project based on best practices in clean architecture, DDD approach for business logics, MVVM for the frontend part, storybook and vitest for testing logics and ui part and also functional programming with error handling for business logics. 
+This project is a starting point for your medium to large scale projects with Nextjs, to make sure having a structured, maintainable and scalable foundation for your Next.js project based on best practices in clean architecture, DDD approach for business logics, MVVM for the frontend part, storybook and vitest for testing and, localization and also functional programming with error handling for business logics. 
 
 ## Motivation
-Nextjs and many other new SSR tools provide a really good and new approach to handle frontend applications, with new tools to bring a new good experience for users. But as they're new and they just tried to bring new tools and features and also frontend community, didn't talk about software engineering and best practices approach for this tools. 
 
-So in many cases we see many teams uses nextjs to just use its tools and features as much as they can but they don't care about the best practices, architecture and software engineering approach. So there are many projects with Nextjs which is not maintainable and specially in medium to large scale applications, through the time it'll be really hard to manage to even impossible to add new features and it cause business failures.
+Next.js and many other modern SSR frameworks provide powerful tools and a fresh approach to frontend development. However, since these tools are relatively new, the focus has largely been on features rather than software engineering best practices.  
 
-So I decided to make a base firm and maintanable boilerplate for most faviorite SSR framework, which is Nextjs and use all my experiences and best practices which fits Nextjs features and abilities to make a structured, robust and maintanable basement for SSR projects.
+As a result, many teams use Next.js for its capabilities but neglect maintainability, architecture, and scalability—especially in medium to large-scale applications. Over time, this leads to unmanageable codebases, difficulty in adding new features, and even business failures.  
 
-I personally used this boilerplate for several enterprise web-applications and it's completely tested and you can rest assured to use it safely. 
+After extensive trial and error in my career, I decided to create a **structured, robust, and maintainable boilerplate** for Next.js, incorporating best practices that align with its features. This template is based on real-world experience and is designed to serve as a solid foundation for SSR projects.  
 
-> Note: I'll be happy to get your issues and problems or any other opinion to make it better together. To know how to contribute please visite the CONTRIBUTE.md file.
+I’ve personally used this boilerplate in multiple enterprise-level web applications, and it has been thoroughly tested. You can confidently use it in production.  
 
+> **Note:** I welcome your feedback, issues, and suggestions to improve this project together. For contribution guidelines, please check [CONTRIBUTE.md](CONTRIBUTE.md).  
+
+## Technologies
+
+- Language: [Typescript](https://www.typescriptlang.org/)
+- Framework: [Next.js](https://nextjs.org/)
+- Testing tools: [Vitest](https://vitest.dev/)
+- UI documenting: [Storybook](https://storybook.js.org/)
+- Lintins: [ESlint](https://eslint.org/)
+- Component library: [Shadcn](https://ui.shadcn.com/)
+- Css utility: [Tailwindcss](https://tailwindcss.com/)
+- i18n: [I18Next](https://www.i18next.com/)
+- dependency injection: [tsyringe](https://github.com/microsoft/tsyringe)
+- functional programming: [fp-ts](https://gcanti.github.io/fp-ts/)
+- MVVM architecture: [ReactVVM](https://github.com/behnamrhp/React-VVM)
+- Schema validator: [Zod](https://zod.dev/) 
+- Mocking tool: [Moq.ts](https://github.com/dvabuzyarov/moq.ts)
+- Faking tool: [Fakerjs](https://fakerjs.dev/)
+- Containerization: [Docker](https://www.docker.com/)
+- CI: [Gihub actions](https://github.com/features/actions)
+  
+## Architecture
+To make sure about maintainability and scalibility of the application we're following clean architecture, MVVM architectural patter in frontend part with using [ReactVVM](https://github.com/behnamrhp/React-VVM) and DDD approach in business logic related layers.
+
+- To know more about details, diagrams and tutorials check documents in catalog folder.
+
+### Folder structure
+```
+└── src/
+    ├── app/
+    │   └── users/
+    │       ├── controllers
+    │       ├── view/
+    │       │   ├── server
+    │       │   └── client/
+    │       │       └── some-component/
+    │       │           ├── some-component.view.tsx
+    │       │           ├── stories
+    │       │           └── style/
+    │       │               └── i-vm
+    │       ├── page
+    │       └── vm
+    ├── feature/
+    │   ├── core/
+    │   │   └── users/
+    │   │       ├── data/
+    │   │       │   ├── repository
+    │   │       │   └── mapper
+    │   │       └── domain/
+    │   │           ├── failure
+    │   │           ├── i-repository
+    │   │           ├── entity
+    │   │           └── usecase
+    │   ├── support
+    │   └── generic
+    ├── bootstrap/
+    │   ├── boundary
+    │   ├── config/
+    │   │   ├── server
+    │   │   └── client
+    │   ├── di
+    │   ├── endpoint
+    │   ├── helper
+    │   └── i18n
+    └── test/
+        ├── common
+        ├── unit
+        └── e2e
+```
+
+## Requirements
+To work with this boilerplate, there are some base requirements based on some best practices in software development which we used in this boilerplate. We've provided all necessary documentation for each one to learn about them step by step:
+
+- [Clean architecture](/catalog/docs/clean-architecture/clean-architecture.md)
+- [Business Logic handling with DDD](/catalog/docs/feature-layer/feature-layer-architecture.md)
+- [MVVM](/catalog/docs/mvvm/application-layer-architecture.md)
+- [Failure handling](/catalog/docs/failure-error-handling/failure-error-handling.md)
+- [i18n](/catalog/docs/i18n/i18n-guideline.md)
+- [Endpoints managements](/catalog/docs/endpoints/endpoint-architecture.md)
+- [Dependency injection](/catalog/docs/di/di-architecture.md)
 ## Getting Started
 
-First, run the development server:
-
+### Local
+1. DB: First, run your postgres db:
+2. ENVs: Update `.env.example` file and specify all db related environments and remove `.example` part from the file name
+3. Install deps
+``` bash
+yarn install
+```
+4. Seed db:
+```bash
+yarn seed
+```
+5. run development
 ```bash
 npm run dev
 # or
@@ -37,23 +132,26 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Docker
+1. ENVs: Update `.env.example` file and specify all db related environments and remove `.example` part from the file name
 
-## Learn More
+3. Just run the [docker-compose.yml](/docker-compose.yml) file by this command:
+```bash
+docker-compose up
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. Seed db:
+```bash
+yarn seed
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## naming convetions:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. all **_folders_** follow the kebab-case convention for naming.
+2. all **_files_** follow the kebab-case.[layer name] convention for naming.
+3. all **_variables_** and **_functions_** follow the camelCase convention for naming.
