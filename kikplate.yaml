@@ -1,0 +1,12 @@
+name: Next Clean Architecture
+description: A production-proven and BFF friendly boilerpate for medium-large scale projects with Nextjs based on clean architecture, mvvm and functional programming paradigm  
+category: frontend, fullstack, ssr
+owner: behnamrhp
+tags:
+  - next.js 
+  - next
+  - clean_architecture
+  - mvvm
+  - bff
+  - fullstack
+  - functional_programming 
