@@ -1,27 +1,37 @@
+import "server-only";
 import { sql } from "@/bootstrap/boundaries/db/db";
+import ApiTask from "@/feature/common/data/api-task";
+import { failureOr } from "@/feature/common/failures/failure-helpers";
+import NetworkFailure from "@/feature/common/failures/network.failure";
 import Revenue from "@/feature/core/revenue/domain/entity/revenue.entity";
 import RevenueRepo from "@/feature/core/revenue/domain/i-repo/revenue.i-repo";
+import { pipe } from "fp-ts/lib/function";
+import { tryCatch } from "fp-ts/lib/TaskEither";
 import postgres from "postgres";
 
 export type RevenueDbResponse = {
   month: string;
   revenue: number;
 };
+
 export default class RevenueDbRepo implements RevenueRepo {
-  async fetchRevenues(): Promise<Revenue[]> {
-    try {
-      // Artificially delay a response for demo purposes.
-      // Don't do this in production :)
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+  fetchRevenues(): ApiTask<Revenue[]> {
+    return pipe(
+      tryCatch(
+        async () => {
+          // Artificially delay a response for demo purposes.
+          // Don't do this in production :)
+          await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      const data = (await sql`SELECT * FROM revenue`) as postgres.RowList<
-        RevenueDbResponse[]
-      >;
+          const data = (await sql`SELECT * FROM revenue`) as postgres.RowList<
+            RevenueDbResponse[]
+          >;
 
-      return this.revenuesDto(data);
-    } catch {
-      throw new Error("Failed to fetch revenue data.");
-    }
+          return this.revenuesDto(data);
+        },
+        (l) => failureOr(l, new NetworkFailure(l)),
+      ),
+    );
   }
 
   private revenuesDto(dbResponse: RevenueDbResponse[]): Revenue[] {

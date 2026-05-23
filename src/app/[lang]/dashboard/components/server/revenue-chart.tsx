@@ -1,9 +1,22 @@
 import revenueChartController from "@/app/[lang]/dashboard/controller/revenue-chart.controller";
+import { LANGS } from "@/bootstrap/i18n/i18n";
+import { translateFailureMessage } from "@/feature/common/failures/translate-failure-message";
 import { CalendarIcon } from "@heroicons/react/24/outline";
+import { isLeft } from "fp-ts/lib/Either";
 
-export default async function RevenueChart() {
-  const { chartHeight, revenue, topLabel, yAxisLabels } =
-    await revenueChartController();
+type RevenueChartProps = {
+  lang: LANGS;
+};
+
+export default async function RevenueChart({ lang }: RevenueChartProps) {
+  const result = await revenueChartController();
+
+  if (isLeft(result)) {
+    const message = await translateFailureMessage(result.left, lang);
+    return <p className="mt-4 text-red-500">{message}</p>;
+  }
+
+  const { chartHeight, revenue, topLabel, yAxisLabels } = result.right;
 
   if (!revenue || revenue.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;

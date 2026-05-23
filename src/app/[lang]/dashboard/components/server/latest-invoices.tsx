@@ -1,15 +1,24 @@
 import latestInvoicesController from "@/app/[lang]/dashboard/controller/latest-invoices.controller";
 import CreateRandomInvoiceButtonVM from "@/app/[lang]/dashboard/vm/create-random-invoice-button-vm";
 import Button from "@/app/components/button/button";
+import { LANGS } from "@/bootstrap/i18n/i18n";
+import { translateFailureMessage } from "@/feature/common/failures/translate-failure-message";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { isLeft } from "fp-ts/lib/Either";
 import Image from "next/image";
 
-export default async function LatestInvoices() {
+type LatestInvoicesProps = {
+  lang: LANGS;
+};
+
+export default async function LatestInvoices({ lang }: LatestInvoicesProps) {
   const latestInvoices = await latestInvoicesController();
 
-  if (isLeft(latestInvoices)) return <div>Error</div>;
+  if (isLeft(latestInvoices)) {
+    const message = await translateFailureMessage(latestInvoices.left, lang);
+    return <p className="mt-4 text-red-500">{message}</p>;
+  }
 
   const invoices = latestInvoices.right.map((invoice, i) => (
     <div

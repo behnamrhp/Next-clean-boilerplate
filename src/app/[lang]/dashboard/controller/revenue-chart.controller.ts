@@ -1,5 +1,14 @@
+import { ApiEither } from "@/feature/common/data/api-task";
 import Revenue from "@/feature/core/revenue/domain/entity/revenue.entity";
 import fetchRevenuesUsecase from "@/feature/core/revenue/domain/usecase/fetch-revenues.usecase";
+import { isLeft, right } from "fp-ts/lib/Either";
+
+export type RevenueChartData = {
+  revenue: Revenue[];
+  chartHeight: number;
+  yAxisLabels: string[];
+  topLabel: number;
+};
 
 /**
  * Controllers are bridge between feature layer and application layer.
@@ -7,18 +16,20 @@ import fetchRevenuesUsecase from "@/feature/core/revenue/domain/usecase/fetch-re
  * Or connect multiple usecases and run them, handle their failure, hydrate and store data in
  *  client state managements.
  */
-export default async function revenueChartController() {
-  const revenue = await fetchRevenuesUsecase();
-  const chartHeight = 350;
+export default async function revenueChartController(): Promise<
+  ApiEither<RevenueChartData>
+> {
+  const result = await fetchRevenuesUsecase();
+  if (isLeft(result)) return result;
 
-  const { yAxisLabels, topLabel } = generateYAxis(revenue);
+  const { yAxisLabels, topLabel } = generateYAxis(result.right);
 
-  return {
-    revenue,
-    chartHeight,
+  return right({
+    revenue: result.right,
+    chartHeight: 350,
     yAxisLabels,
     topLabel,
-  };
+  });
 }
 
 function generateYAxis(revenue: Revenue[]) {
