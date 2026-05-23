@@ -1,15 +1,53 @@
 import serverConfigs from "@/bootstrap/configs/server-configs";
-import Endpoint from "../endpoint";
+import Endpoint from "@/bootstrap/endpoint/endpoint";
+import IBaseHttpResponse from "@/feature/common/data/http/i-base-http-response";
 
-export default class IdpEndpoint extends Endpoint {
-  /* ------------------------------ Dependencies ------------------------------ */
-  private tokenEndpoint: string;
+export type IdpTokenResponse = {
+  access_token: string;
+  expires_in: number;
+  id_token: string;
+  refresh_token: string;
+  scope: "profile";
+  token_type: "Bearer";
+};
 
-  private profileEndpoint: string;
+export type IdpProfileResponse = {
+  name: string;
+  picture: string;
+  preferred_username: string;
+  sub: string;
+  roles?: string[];
+};
 
-  private signInCallbackUrl: string;
+export type IdpResponse = IdpTokenResponse | IdpProfileResponse;
 
-  /* --------------------------------- Getters -------------------------------- */
+export default class IdpEndpoint extends Endpoint<IdpResponse> {
+  protected baseURL = serverConfigs.env.idp.url;
+
+  protected apiVersion = "api";
+
+  protected interceptors = undefined;
+
+  private tokenEndpoint = "login/oauth/access_token";
+
+  private profileEndpoint = "userinfo";
+
+  private signInCallbackUrl = "login/oauth/authorize";
+
+  protected toHttpDataResponse<DATA>(
+    response: IdpResponse,
+  ): IBaseHttpResponse<DATA> {
+    if ("access_token" in response || "sub" in response) {
+      return {
+        data: response as DATA,
+        success: true,
+        status: "200",
+      };
+    }
+
+    throw response;
+  }
+
   get token() {
     return this.buildEndpoint(this.tokenEndpoint);
   }
@@ -18,18 +56,6 @@ export default class IdpEndpoint extends Endpoint {
     return this.buildEndpoint(this.profileEndpoint);
   }
 
-  /* ------------------------------- Constructor ------------------------------ */
-  constructor() {
-    super({
-      apiVersion: "api",
-      baseURL: serverConfigs.env.idp.url,
-    });
-    this.tokenEndpoint = "login/oauth/access_token";
-    this.profileEndpoint = "userinfo";
-    this.signInCallbackUrl = `login/oauth/authorize`;
-  }
-
-  /* ----------------------------- Implementations ---------------------------- */
   signIncallback(callbackUrl: string) {
     return Endpoint.sanitizeURL(
       `${this.baseURL}/${
@@ -37,5 +63,4 @@ export default class IdpEndpoint extends Endpoint {
       }?response_type=code&client_id=${serverConfigs.env.idp.clientId}&scope=profile&redirect_uri=${callbackUrl}`,
     );
   }
-  /* -------------------------------------------------------------------------- */
 }

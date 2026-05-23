@@ -1,4 +1,4 @@
-import BackendEndpoint from "@/bootstrap/endpoint/endpoints/backend-endpoints";
+import EndpointProvider from "@/bootstrap/endpoint/endpoint-provider";
 import WithPagination from "@/feature/common/class-helpers/with-pagination";
 import ApiTask from "@/feature/common/data/api-task";
 import FetchHandler, {
@@ -14,7 +14,7 @@ import UserRepository from "@/feature/core/user/domain/i-repo/user.repository.in
 import { CreateUserParams } from "@/feature/core/user/domain/params/create-user.param-schema";
 import { UpdateUserParams } from "@/feature/core/user/domain/params/update-user.param-schema";
 import { pipe } from "fp-ts/lib/function";
-import { chain, left, map, right } from "fp-ts/lib/TaskEither";
+import { left, map, mapLeft, right, tryCatch } from "fp-ts/lib/TaskEither";
 
 export enum ApiRole {
   ADMIN = "admin",
@@ -43,7 +43,7 @@ export type UpdateUserApiParams = {
 };
 
 export default class UserRepositoryImpl implements UserRepository {
-  readonly endpoint: BackendEndpoint;
+  private endpoint = EndpointProvider.backend;
 
   private fetchHandler: FetchHandler;
 
@@ -52,7 +52,6 @@ export default class UserRepositoryImpl implements UserRepository {
   constructor() {
     const di = serverDi(userModuleKey);
     this.fetchHandler = di.resolve(FetchHandler);
-    this.endpoint = di.resolve(BackendEndpoint);
   }
 
   create(params: CreateUserParams): ApiTask<true> {
@@ -62,21 +61,15 @@ export default class UserRepositoryImpl implements UserRepository {
       body: UserMapper.mapToCreateParams(params),
     };
     return pipe(
-      this.fetchHandler.fetchWithAuth<
-        true | { error: string },
-        CreateUserApiParams
-      >(options),
-      chain((response) => {
+      this.fetchHandler.fetchWithAuth(this.endpoint, options),
+      mapLeft((failure) => {
         if (
-          response instanceof Object &&
-          (response as { error: string }).error &&
-          typeof (response as { error: string }).error === "string" &&
-          (response as { error: string }).error.toLowerCase() ===
-            this.userAlreadyExistsErrorMessage
+          typeof failure.metadata === "string" &&
+          failure.metadata.toLowerCase() === this.userAlreadyExistsErrorMessage
         ) {
-          return left(new UserUsernameExistsFailure().toPlainObject());
+          return new UserUsernameExistsFailure().toPlainObject();
         }
-        return right(true);
+        return failure;
       }),
     ) as ApiTask<true>;
   }
@@ -87,7 +80,7 @@ export default class UserRepositoryImpl implements UserRepository {
       method: "PUT",
       body: UserMapper.mapToUpdateParams(params),
     };
-    return this.fetchHandler.fetchWithAuth(options);
+    return this.fetchHandler.fetchWithAuth(this.endpoint, options);
   }
 
   delete(ids: string[]): ApiTask<true> {
@@ -100,7 +93,7 @@ export default class UserRepositoryImpl implements UserRepository {
       body: ids,
     };
     return pipe(
-      this.fetchHandler.fetchWithAuth<undefined, string[]>(options),
+      this.fetchHandler.fetchWithAuth(this.endpoint, options),
       map(() => true),
     );
   }
@@ -125,10 +118,10 @@ export default class UserRepositoryImpl implements UserRepository {
       method: "GET",
     };
     return pipe(
-      options,
-      this.fetchHandler.fetchWithAuth.bind(this.fetchHandler) as () => ApiTask<
-        WithPaginationResponse<UserResponse>
-      >,
+      this.fetchHandler.fetchWithAuth<WithPaginationResponse<UserResponse>>(
+        this.endpoint,
+        options,
+      ),
       map(UserMapper.mapToEntity.bind(this)),
     ) as ApiTask<WithPagination<User>>;
   }

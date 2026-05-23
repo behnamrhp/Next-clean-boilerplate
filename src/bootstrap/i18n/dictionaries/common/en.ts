@@ -16,6 +16,8 @@ const en: typeof commonLangKey = {
   failure: {
     network: "Something went wrong please try again layer!",
     param: "Please provide correct information",
+    apiStructure: "Unexpected API response structure",
+    unauthorized: "You are not authorized to perform this action",
   },
 };
 

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BaseFailure from "@/feature/common/failures/base.failure";
+import NetworkFailure from "@/feature/common/failures/network.failure";
+import ServerResponseFailure from "@/feature/common/failures/server-response.failure";
 
 /**
  * This method is supposed to save previous failure of TaskEither
@@ -98,3 +100,6 @@ export function mapIfNotInstance<IfType, Response>(
     return t;
   };
 }
+
+export const isServerSideFailure = (l: BaseFailure<any>) =>
+  l instanceof ServerResponseFailure || l instanceof NetworkFailure;

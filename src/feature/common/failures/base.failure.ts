@@ -23,14 +23,22 @@ export default abstract class BaseFailure<META_DATA> {
    */
   message: string;
 
+  status: string;
+
   /* -------------------------------------------------------------------------- */
   metadata: META_DATA | undefined;
 
   logger?: Logger;
 
   /* -------------------------------------------------------------------------- */
-  constructor(message: string, namespace: string, metadata?: META_DATA) {
+  constructor(
+    message: string,
+    namespace: string,
+    metadata?: META_DATA,
+    status?: string,
+  ) {
     this.message = message;
+    this.status = status ?? "";
     this.metadata = metadata ?? undefined;
     this.namespace = namespace;
     try {
@@ -45,6 +53,7 @@ export default abstract class BaseFailure<META_DATA> {
   toPlainObject(): BaseFailure<META_DATA> {
     return {
       message: this.message,
+      status: this.status,
       metadata: this.metadata,
     } as BaseFailure<META_DATA>;
   }

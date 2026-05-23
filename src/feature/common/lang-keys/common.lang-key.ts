@@ -14,6 +14,8 @@ const commonLangKey = {
   failure: {
     network: "failure.network",
     param: "failure.param",
+    apiStructure: "failure.apiStructure",
+    unauthorized: "failure.unauthorized",
   },
   dashboard: {
     invoice: {

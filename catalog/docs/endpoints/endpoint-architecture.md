@@ -1,138 +1,246 @@
-# Endpoints architecture
+# Endpoints Architecture
+
 ## Table of Contents
-- [Endpoints architecture](#endpoints-architecture)
+- [Endpoints Architecture](#endpoints-architecture)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
-  - [Endpoints architecture](#endpoints-architecture-1)
-  - [Endpoints explanations](#endpoints-explanations)
-    - [BaseEndpoint:](#baseendpoint)
-    - [SpecificEndpoint](#specificendpoint)
-  - [EndpointsProvider](#endpointsprovider)
-  - [Usage Example](#usage-example)
-    - [Endpoint Files](#endpoint-files)
-    - [Implementation](#implementation)
+  - [Architecture](#architecture)
+  - [Base Endpoint](#base-endpoint)
+  - [API-specific endpoint classes](#api-specific-endpoint-classes)
+  - [EndpointProvider](#endpointprovider)
+  - [HTTP Boundary](#http-boundary)
+  - [Response mapping pipeline](#response-mapping-pipeline)
+  - [Usage in repositories](#usage-in-repositories)
   - [Conclusion](#conclusion)
 
 ## Overview
-API URLs, versions, and endpoints are among the most volatile parts of any application. Since they depend on external services, frequent changes can quickly lead to:
 
-- Spaghetti code (scattered URL strings)
-- Brittle integrations (tight coupling with third-party APIs)
-- Maintenance nightmares (manual updates across files)
+API URLs, versions, and response shapes are among the most volatile parts of any application. In a BFF (Backend for Frontend) setup with Next.js, the server talks to multiple upstream APIs — each with its own URL scheme, auth rules, and JSON structure.
 
-This architecture solves those problems by:
+This architecture solves that by:
 
-- Centralizing endpoint logic in dedicated classes.
-- Abstracting URL construction behind reusable methods.
-- Isolating versioning/base URLs for easy updates.
+- Centralizing endpoint URLs per API in dedicated classes
+- Mapping each API's raw response shape to a unified internal HTTP response
+- Scoping HTTP interceptors (auth headers, token refresh, etc.) per API
+- Keeping repositories and use cases agnostic of upstream response formats
 
-Result: Your core code stays clean, even when APIs change.
+See also: [Next.js with BFF](/catalog/docs/bff/nextjs-bff-architecture.md)
 
-## Endpoints architecture
-The following class diagram shows the architecture of endpoints:
-![EndpointArchitecture](https://www.plantuml.com/plantuml/dpng/SoWkIImgAStDKU1ApaaiBbPmIYnETSrBASZFp2kfhkM2YoPdf-Qbm2GKW38G2S-K0an1nxpyaepK8iU2J6GvBdH3T7Lhx53iumAQXaSMOImUHGv06u3U0G00)
+## Architecture
 
-## Endpoints explanations
-### BaseEndpoint:
-The BaseEndpoint class is implemented for manipulating API endpoints within an application.
-the BaseEndpoint class requires two parameters: `baseURL` and `apiVersion`, which represent the base URL of the API and the version of the API being used.
-BaseEndpoint class has several methods:
-- `compose Method (Static)` This static method, takes an array of strings representing different parts of the URL and returns a sanitized URL by joining these parts together. It ensures that the URL is properly formatted and free of any unnecessary double slashes or incorrect separators.
-- `buildEndpoint Method` This instance method, buildEndpoint, is responsible for constructing a complete endpoint URL by appending a specific endpoint to the base URL and API version. It returns a sanitized URL string ready for use in API requests.
-- `sanitizeURL Method (Static)` You can use this method to ensure that the constructed URLs are correctly formatted. It replaces any occurrences of consecutive slashes with a single slash, ensuring that the URL is valid and compliant with URL standards.
- 
-Overall, The `BaseEndpoint` class offers a convenient and reliable way to construct and manage endpoint URLs within an application. It enables team members to use a shared language when working with third-party libraries, reducing the risk of bloating the main application code due to API or UI changes in external dependencies.
+```
+bootstrap/endpoint/
+  endpoint.ts              → Abstract base (URL building + response mapping)
+  endpoint-provider.ts     → Factory for API endpoint instances
+  endpoints/
+    backend-endpoints.ts   → REST backend API (response shape A)
+    idp-endpoints.ts       → Identity provider API (response shape B)
 
-### SpecificEndpoint
-Every specific endpoint class extends the functionality of the `BaseEndpoint` class and introduces additional features specific to this  specific endpoint. This inheritance includes methods for composing and building endpoint URLs.
-The specific endpoint encapsulates private properties, these properties are URLs for a specific endpoint.
-Overall, the `SpecificEndpoint` class extends the capabilities of the BaseEndpoint class by adding specific endpoint functionalities tailored to the specific system. It provides a convenient and centralized approach for managing and accessing Specific-related endpoints within the application. The following is an example about making a specific endpoint and how it extends the base endpoint:
+bootstrap/boundaries/http-boundary/
+  http-boundary.ts         → Fetch wrapper with status-to-failure mapping
+
+feature/common/data/
+  http/i-base-http-response.ts  → Unified response interface
+  http/base-http-response.ts    → Success/failure validation
+  task-map-json-to-response.ts  → JSON → endpoint mapping pipeline
+```
+
+Each API gets its own endpoint child class. Repositories only know the API name (`EndpointProvider.backend`, `EndpointProvider.idp`) — never the raw response structure.
+
+## Base Endpoint
+
+Example: [endpoint.ts](/src/bootstrap/endpoint/endpoint.ts)
+
+The abstract `Endpoint` class defines three responsibilities:
+
+1. **URL construction** — `buildEndpoint()`, `compose()`, `sanitizeURL()`
+2. **Response mapping** — `toHttpDataResponse()` converts raw API JSON to `IBaseHttpResponse`
+3. **Scoped HTTP client** — `HttpBoundary` getter returns an HTTP instance with this endpoint's interceptors
+
 ```ts
-import BaseEndpoint from "~/bootstrap/helper/endpoint/base-endpoint";
+export default abstract class Endpoint<RESPONSE_STRUCT = any> {
+  protected abstract baseURL: string;
+  protected abstract apiVersion: string;
 
-export default class BookEndpoint extends BaseEndpoint {
-  private addBookEndpoint: string;
+  protected abstract toHttpDataResponse<DATA>(
+    response: RESPONSE_STRUCT,
+  ): IBaseHttpResponse<DATA>;
 
-  private booksEndpoint: string;
+  protected abstract interceptors?: {
+    request?: HttpRequestInterceptor;
+    response?: HttpResponseInterceptor;
+  };
 
-  get addBook() {
-    return this.buildEndpoint(this.addBookEndpoint);
+  get HttpBoundary(): IHttpBoundary {
+    return new HttpBoundary({ interceptors: this.interceptors });
   }
 
-  get books() {
-    return this.buildEndpoint(this.booksEndpoint);
-  }
-
-  constructor({
-    addBookEndpoint,
-    booksEndpoint,
-    baseURL,
-    apiVersion,
-  }: {
-    addBookEndpoint: string;
-    booksEndpoint: string;
-    baseURL: string;
-    apiVersion: string;
-  }) {
-    super({
-      apiVersion,
-      baseURL,
-    });
-    this.addBookEndpoint = addBookEndpoint;
-    this.booksEndpoint = booksEndpoint;
+  toHttpResponse<DATA>(response: RESPONSE_STRUCT): ApiTask<IBaseHttpResponse<DATA>> {
+    return tryCatch(
+      async () => this.toHttpDataResponse<DATA>(response),
+      (l) => failureOr(l, new ResponseStructureFailure({ ... })),
+    );
   }
 }
 ```
-As you see the BookEndpoint class extends BaseEndpoint to provide a structured way of managing book-related API endpoints. It encapsulates endpoint construction logic, ensuring consistency and reusability across the application.
 
-## EndpointsProvider
-The EndpointsProvider class offers centralized static methods for retrieving various endpoints used in the application. Each method returns an instance of a specific endpoint class, preconfigured with the necessary URLs and settings.
+If `toHttpDataResponse` throws (wrong shape), the error becomes a `ResponseStructureFailure` — fail fast before bad data reaches domain logic.
 
-By encapsulating the logic for creating and configuring endpoints, this class simplifies access and usage across the application. Below is an example of how the EndpointsProvider works:
+## API-specific endpoint classes
+
+Each upstream API extends `Endpoint` with its own response type and mapping logic.
+
+### Backend API
+
+Example: [backend-endpoints.ts](/src/bootstrap/endpoint/endpoints/backend-endpoints.ts)
+
 ```ts
-import BookEndpoint from "~/bootstrap/helper/endpoint/endpoints/book-endpoints";
-import appConfigs from "~/bootstrap/config/app-configs";
+export type BackendResponse<DATA> =
+  | { error: string }
+  | DATA;
 
-/**
- * Provides static methods to retrieve different types of endpoints.
- */
-export default class EndpointsProvider {
-  /**
-   * Book api
-   */
-  static book() {
-    return new BookEndpoint({
-      apiVersion: "api/v1",
-      addBookEndpoint: "book/add",
-      booksEndpoint: "book",
-      baseURL: appConfigs.baseApis.book,
-    });
+export default class BackendEndpoint extends Endpoint {
+  protected toHttpDataResponse<DATA>(response: BackendResponse<DATA>) {
+    if (response && typeof response === "object" && "error" in response) {
+      throw new ArgumentsFailure(response.error);
+    }
+    return { data: response as DATA, success: true, status: "200" };
+  }
+
+  get users() {
+    return this.buildEndpoint("users");
   }
 }
 ```
-> Note: The EndpointProvider step is optional. Instead, you can statically define all required endpoint configurations directly in the endpoint class's constructor.
 
-## Usage Example
-You can see implementation examples these addresses:
+### Identity Provider API
 
-### Endpoint Files
-- [Endpoint implementations](https://github.com/behnamrhp/Next-clean-boilerplate/tree/develop/src/bootstrap/endpoint/endpoints)  
-  Contains two endpoint types:
-  1. HTTP backend API connections
-  2. Identity provider API connections
+Example: [idp-endpoints.ts](/src/bootstrap/endpoint/endpoints/idp-endpoints.ts)
 
-### Implementation
-- [Repository usage](https://github.com/behnamrhp/Next-clean-boilerplate/blob/develop/src/feature/core/user/data/repository/user.repository.ts)  
-  Demonstrates how backend endpoints are consumed throughout the application
+OAuth/OIDC responses use a completely different shape (`access_token`, `sub`, etc.). The IDP endpoint class maps them independently:
 
+```ts
+protected toHttpDataResponse<DATA>(response: IdpResponse): IBaseHttpResponse<DATA> {
+  if ("access_token" in response || "sub" in response) {
+    return { data: response as DATA, success: true, status: "200" };
+  }
+  throw response; // → ResponseStructureFailure
+}
+```
+
+When the IDP changes its token response format, you update only `IdpEndpoint` — repositories and use cases stay untouched.
+
+## EndpointProvider
+
+Example: [endpoint-provider.ts](/src/bootstrap/endpoint/endpoint-provider.ts)
+
+A centralized factory gives repositories access to preconfigured endpoint instances by API name:
+
+```ts
+export default class EndpointProvider {
+  static get backend() {
+    return new BackendEndpoint();
+  }
+
+  static get idp() {
+    return new IdpEndpoint();
+  }
+}
+```
+
+Repositories reference `EndpointProvider.backend.users`, not hardcoded URLs or response parsers.
+
+## HTTP Boundary
+
+Example: [http-boundary.ts](/src/bootstrap/boundaries/http-boundary/http-boundary.ts)
+
+Each endpoint's `HttpBoundary` handles:
+
+- Request/response interceptors scoped to that API
+- HTTP status → failure mapping (`4xx` → `ClientResponseFailure`, `5xx` → `ServerResponseFailure`)
+- Timeout and network error handling
+
+```ts
+static httpStatusToFailure = {
+  4: ClientResponseFailure,
+  5: ServerResponseFailure,
+  3: ServerResponseFailure,
+};
+```
+
+## Response mapping pipeline
+
+The full pipeline from fetch to domain data:
+
+```
+HttpBoundary.request(url)
+  → taskMapJsonToResponse(endpoint)     // parse JSON, map HTTP status failures
+    → endpoint.toHttpResponse(json)     // map API shape → IBaseHttpResponse
+      → BaseHttpResponse.toHTTPResponse // validate success flag
+        → BaseHttpResponse.getHTTPResponseData // extract typed data
+```
+
+Example: [task-map-json-to-response.ts](/src/feature/common/data/task-map-json-to-response.ts)
+
+Unified response interface:
+
+```ts
+interface IBaseHttpResponse<DATA> {
+  status: string;
+  message?: string;
+  data?: DATA;
+  success: boolean;
+}
+```
+
+Every API response passes through this shape before reaching repositories. Domain mappers (`UserMapper`, `AuthTokenMapper`) only work with validated, normalized data.
+
+## Usage in repositories
+
+### Auth repository (IDP API)
+
+Example: [auth.repository.ts](/src/feature/generic/auth/data/repo/auth.repository.ts)
+
+```ts
+private endpoint = EndpointProvider.idp;
+
+private requestToken(code: string) {
+  return pipe(
+    this.endpoint.HttpBoundary.post(this.endpoint.token, params),
+    taskMapJsonToResponse<IdpTokenResponse>(this.endpoint),
+    chain(BaseHttpResponse.getHTTPResponseData),
+    map(this.mapToTokenEntity),
+  );
+}
+```
+
+The repository knows: "call the IDP token endpoint." It does not know the raw `{ access_token, ... }` shape — that lives in `IdpEndpoint`.
+
+### User repository (Backend API)
+
+Example: [user.repository.ts](/src/feature/core/user/data/repository/user.repository.ts)
+
+```ts
+private endpoint = EndpointProvider.backend;
+
+create(params: CreateUserParams): ApiTask<true> {
+  return this.fetchHandler.fetchWithAuth(this.endpoint, {
+    endpoint: this.endpoint.users,
+    method: "POST",
+    body: UserMapper.mapToCreateParams(params),
+  });
+}
+```
+
+`FetchHandler` accepts an `Endpoint` instance, uses its `HttpBoundary`, and runs the mapping pipeline automatically.
 
 ## Conclusion
-Managing API endpoints effectively is crucial for building maintainable applications in our API-driven world. The architecture we've explored:
 
-✅ **Isolates volatile API configurations** from business logic  
-✅ **Standardizes endpoint management** across your codebase  
-✅ **Dramatically reduces tech debt** when APIs inevitably change  
+This endpoint architecture makes the boilerplate BFF-friendly:
 
-By implementing this pattern, you'll spend less time on finding and fixing broken endpoints and more time building features. 
+- **Per-API isolation** — URL, auth, and response mapping live in one class per upstream API
+- **Repository agnosticism** — domain code references endpoint names, not response shapes
+- **Fail fast** — invalid response structures become typed failures via functional `TaskEither` pipelines
+- **Easy API migration** — change one endpoint class when an upstream API changes version or format
 
-*Remember: Good architecture isn't about preventing change - it's about making change manageable.*
+For the broader BFF pattern, SSR combination, and performance rationale, see [Next.js with BFF](/catalog/docs/bff/nextjs-bff-architecture.md).
