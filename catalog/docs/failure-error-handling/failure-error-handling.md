@@ -125,6 +125,8 @@ There are many situations where, if an important process encounters problems, we
 
 For example, when a CreateUserFailure occurs in the repository layer, we can send a log with the specific time and relevant parameter data to any logging or monitoring tool.
 
+This boilerplate handles that automatically via Pino. When any failure extending `BaseFailure` is instantiated on the server, a structured error log is emitted with the message key, namespace, and metadata. See [Logging Architecture](/catalog/docs/logging/logging-architecture.md) for the full setup.
+
 ### Monitoring on bugs with dev failures
 There are many situations, especially in frontend applications, where unexpected behavior occurs due to development mistakes or bugs. For example, when bugs or data changes in APIs happen, it's possible to face unexpected behaviors. In such cases, we want to show a specific message or redirect the user to an error page with a clear message.
 

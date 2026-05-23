@@ -1,5 +1,7 @@
-/* eslint-disable no-console */
 import { isServer } from "@/bootstrap/helpers/global-helpers";
+import di from "@/bootstrap/di/init-di";
+import Logger from "../logger/logger.interface";
+import { loggerDiKey } from "../logger/logger-di-key";
 
 /**
  * This class can be used as a base class for creating custom failure classes.
@@ -24,11 +26,18 @@ export default abstract class BaseFailure<META_DATA> {
   /* -------------------------------------------------------------------------- */
   metadata: META_DATA | undefined;
 
+  logger?: Logger;
+
   /* -------------------------------------------------------------------------- */
   constructor(message: string, namespace: string, metadata?: META_DATA) {
     this.message = message;
     this.metadata = metadata ?? undefined;
     this.namespace = namespace;
+    try {
+      this.logger = di.resolve<Logger>(loggerDiKey);
+    } catch {
+      return;
+    }
     this.logHandler();
   }
 
@@ -42,11 +51,12 @@ export default abstract class BaseFailure<META_DATA> {
 
   /* -------------------------------------------------------------------------- */
   private logHandler() {
-    if (isServer) {
-      console.log(
-        `Error happened in ${this.namespace} namespace, langKey is: ${this.message}, metadata: ${JSON.stringify(this.metadata)}`,
-      );
-    }
+    if (!isServer) return;
+    this?.logger?.error({
+      message: this.message,
+      namespace: this.namespace,
+      metadata: this.metadata,
+    });
   }
   /* -------------------------------------------------------------------------- */
 }

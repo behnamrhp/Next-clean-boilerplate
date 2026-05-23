@@ -2,6 +2,8 @@ import { constructor } from "tsyringe/dist/typings/types";
 
 export const isServer = typeof window === "undefined";
 
+export const isProduction = process.env.NODE_ENV === "production";
+
 /**
  * Checks if the given value is a class
  */

@@ -54,6 +54,7 @@ We apply dependency Injection (DI) in different ways in each layer:
    - Special Case: When passing a VM from a `Server Component` to a `Client Component`, we use a unique `VM key` for serialization.
 
 3. Also global and other dependencies.
+   - Example: The Pino logger is registered in the root DI container on the server. See [Logging Architecture](/catalog/docs/logging/logging-architecture.md).
 ## Feature layer
 As mentioned earlier, we use Dependency Injection (DI) in the Feature Layer to connect the `UseCase` and `Repository` layers via interfaces.
 
